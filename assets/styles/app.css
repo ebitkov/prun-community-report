@@ -1,0 +1,62 @@
+:root {
+    --bs-primary: #000;
+}
+
+.font-serif {
+    font-family: "DM Serif Text", serif;
+}
+
+header {
+    height: 50px;
+    width: 100%;
+    background-color: var(--bs-primary);
+}
+
+#nav-breadcrumbs {
+    padding: 1rem 0;
+    margin-bottom: 1rem;
+}
+
+.nav-github {
+    ul, li {
+        list-style: none;
+        margin: 0;
+        padding: 0;
+    }
+
+    .nav-link {
+        display: flex;
+        align-items: center;
+        padding: .5rem .75rem;
+        border-radius: var(--bs-border-radius);
+        position: relative;
+
+        &::before {
+            content: '';
+            display: block;
+            height: 3px;
+            width: 3px;
+            transition: 0.2s;
+            border-radius: 3px;
+            position: absolute;
+            left: -.5rem;
+            top: 50%;
+        }
+
+        &:hover {
+            background-color: var(--bs-gray-200);
+
+            &::before {
+                top: .4rem;
+                height: 1.75rem;
+                background-color: var(--bs-primary);
+            }
+        }
+
+        svg {
+            height: 1rem;
+            margin-right: .75rem;
+            padding-bottom: 2px;
+        }
+    }
+}

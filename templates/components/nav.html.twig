@@ -1,0 +1,16 @@
+<nav{{ attributes.defaults({ id: 'nav-' ~ menu }) }}>
+    {% for group in app_nav.menu(menu) %}
+        <ul>
+            {% for item in group.items %}
+                <li class="nav-item">
+                    <a href="{{ path(item.route) }}" class="nav-link">
+                        {% if item.icon %}
+                            {{ ux_icon(item.icon) }}
+                        {% endif %}
+                        {{ item.label }}
+                    </a>
+                </li>
+            {% endfor %}
+        </ul>
+    {% endfor %}
+</nav>
