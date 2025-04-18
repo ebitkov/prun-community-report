@@ -15,6 +15,25 @@ final class Nav
                     ]
                 ]
             ]
+        ],
+        'report' => [
+            [
+                'label' => 'Report',
+                'items' => [
+                    [
+                        'label' => 'Overview',
+                        'route' => 'app_report_dashboard'
+                    ],
+                    [
+                        'label' => 'Planets',
+                        'route' => 'app_home'
+                    ],
+                    [
+                        'label' => 'Markets',
+                        'route' => 'app_home'
+                    ]
+                ]
+            ]
         ]
     ];
 

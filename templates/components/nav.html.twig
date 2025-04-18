@@ -1,10 +1,16 @@
 <nav{{ attributes.defaults({ id: 'nav-' ~ menu }) }}>
     {% for group in app_nav.menu(menu) %}
+        {% if group.label %}
+            <div class="nav-section-label">
+                {{ group.label }}
+            </div>
+        {% endif %}
         <ul>
             {% for item in group.items %}
+                {% set link = path(item.route, item.route_parameter|default([])|merge(routeParameters)) %}
                 <li class="nav-item">
-                    <a href="{{ path(item.route) }}" class="nav-link">
-                        {% if item.icon %}
+                    <a href="{{ link }}" class="nav-link {{- app.request.requestUri == link ? ' active' }}">
+                        {% if item.icon is defined %}
                             {{ ux_icon(item.icon) }}
                         {% endif %}
                         {{ item.label }}

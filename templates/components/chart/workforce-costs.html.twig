@@ -1,0 +1,42 @@
+<div{{ attributes.defaults({ class: 'chart-wrapper' }) }}>
+    {{ render_chart(computed.chart) }}
+
+    {% set buttons = [
+        {
+            label: 'Pioneer',
+            color: constant('\\App\\Bootstrap::COLORS')['blue'],
+        },
+        {
+            label: 'Settler',
+            color: constant('\\App\\Bootstrap::COLORS')['purple'],
+        },
+        {
+            label: 'Technician',
+            color: constant('\\App\\Bootstrap::COLORS')['red'],
+        },
+        {
+            label: 'Engineer',
+            color: constant('\\App\\Bootstrap::COLORS')['orange'],
+        },
+        {
+            label: 'Scientist',
+            color: constant('\\App\\Bootstrap::COLORS')['green'],
+        }
+    ] %}
+    <div class="btn-group mt-3 ms-3">
+        <label class="btn  btn-light">
+            <input type="radio" data-model="show" name="show" value="all" checked hidden>
+            All
+        </label>
+        {% for i, btn in buttons %}
+            {% set val = btn.label|lower %}
+            {% set active = show in [val, 'all'] %}
+            <label class="btn btn-light d-flex align-items-center {{ not active ? 'text-muted' }}">
+                <input type="radio" data-model="show" name="show" value="{{ val }}" hidden>
+                <div style="height: .5rem;width: .5rem;border-radius: 50%;background-color: {{ active ? btn.color : 'var(--bs-gray-600)' }}"
+                     class="me-2"></div>
+                {{ btn.label }}
+            </label>
+        {% endfor %}
+    </div>
+</div>

@@ -19,7 +19,9 @@
         <div class="container">
             <nav aria-label="breadcrumb">
                 <ol class="breadcrumb">
-                    <li class="breadcrumb-item active" aria-current="page">Home</li>
+                    {% block breadcrumbs %}
+                        <li class="breadcrumb-item active" aria-current="page">Home</li>
+                    {% endblock %}
                 </ol>
             </nav>
         </div>
@@ -29,7 +31,7 @@
             <div class="row g-5">
                 <div class="col-3">
                     {% block sidebar %}
-                        <twig:nav menu="main" class="nav-github"/>
+                        <twig:nav :menu="sidebar_menu|default('main')" class="nav-github" :routeParameters="sidebar_route_parameters|default([])"/>
                     {% endblock %}
                 </div>
                 <div class="col">

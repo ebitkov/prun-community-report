@@ -2,8 +2,20 @@
     --bs-primary: #000;
 }
 
-.font-serif {
+.font-serif, h1, h2, h3, h4, h5 {
     font-family: "DM Serif Text", serif;
+}
+
+h1 {
+    margin-bottom: 2rem;
+}
+
+h2 {
+    margin: 1rem 0 2rem;
+}
+
+h3, h4, h5 {
+    margin: 1rem 0;
 }
 
 header {
@@ -15,6 +27,7 @@ header {
 #nav-breadcrumbs {
     padding: 1rem 0;
     margin-bottom: 1rem;
+    font-size: .9rem;
 }
 
 .nav-github {
@@ -22,6 +35,18 @@ header {
         list-style: none;
         margin: 0;
         padding: 0;
+    }
+
+    .nav-section-label {
+        font-size: .8rem;
+        font-weight: 700;
+        color: var(--bs-gray-600);
+        padding: 0 .8rem;
+        margin-bottom: 1rem;
+
+        &:not(:first-child) {
+            margin-top: 1rem;
+        }
     }
 
     .nav-link {
@@ -43,6 +68,16 @@ header {
             top: 50%;
         }
 
+        &.active {
+            background-color: var(--bs-gray-100);
+
+            &::before {
+                height: 1rem;
+                background-color: var(--bs-gray-600);
+                top: .75rem;
+            }
+        }
+
         &:hover {
             background-color: var(--bs-gray-200);
 
@@ -59,4 +94,11 @@ header {
             padding-bottom: 2px;
         }
     }
+}
+
+.chart-wrapper {
+    border: thin solid var(--bs-border-color);
+    border-radius: var(--bs-border-radius);
+    padding: 1rem;
+    margin: 2rem 0;
 }

@@ -1,0 +1,48 @@
+{% extends 'base.html.twig' %}
+
+
+{% block sidebar %}
+    {% set sidebar_menu = 'report' %}
+    {% set sidebar_route_parameters = {
+        'region': region,
+    } %}
+    {{ parent() }}
+{% endblock %}
+
+{% block breadcrumbs %}
+    <li class="breadcrumb-item">
+        Economic Report
+    </li>
+    <li class="breadcrumb-item">
+        {{ region|capitalize }}
+    </li>
+    <li class="breadcrumb-item">
+        {{ year }}
+    </li>
+    <li class="breadcrumb-item">
+        {{ ('month.' ~ month)|trans(domain:'datetime') }}
+    </li>
+{% endblock %}
+
+{% block content %}
+    <h1>Overview</h1>
+
+    <p>
+        All charts and tables are generated from the FIO Community API and might contain stale or incomplete data.
+    </p>
+
+    <h2>Population</h2>
+
+    <h3>Workforce Costs</h3>
+    <p>
+        Costs per worker (basic and luxury consumables) per day. Prices are generated with the daily average market
+        price of the required consumables of 100 workers.
+    </p>
+
+    <twig:chart:workforce-costs :region="region" :year="year" :month="month" />
+
+    <h2>Planets</h2>
+
+    <h2>Markets</h2>
+
+{% endblock %}

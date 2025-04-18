@@ -8,4 +8,6 @@ use Symfony\UX\TwigComponent\Attribute\AsTwigComponent;
 final class Nav
 {
     public string $menu;
+
+    public array $routeParameters = [];
 }
