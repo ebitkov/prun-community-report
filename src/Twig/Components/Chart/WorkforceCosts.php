@@ -140,9 +140,6 @@ final class WorkforceCosts
             'datasets' => $datasets,
         ]);
         $chart->setOptions([
-            'animation' => [
-                'enabled' => false,
-            ],
             'plugins' => [
                 'legend' => [
                     'display' => false,
