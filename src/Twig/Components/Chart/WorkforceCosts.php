@@ -5,8 +5,9 @@ namespace App\Twig\Components\Chart;
 use App\Bootstrap;
 use App\Data\PopulationConsumptionIndex;
 use App\PrUn;
+use DateTime;
 use Doctrine\Common\Collections\ArrayCollection;
-use phpDocumentor\Reflection\DocBlock\Tags\PropertyWrite;
+use Exception;
 use Symfony\Component\Serializer\Normalizer\DateTimeNormalizer;
 use Symfony\Component\Serializer\SerializerInterface;
 use Symfony\UX\Chartjs\Builder\ChartBuilderInterface;
@@ -14,6 +15,7 @@ use Symfony\UX\Chartjs\Model\Chart;
 use Symfony\UX\LiveComponent\Attribute\AsLiveComponent;
 use Symfony\UX\LiveComponent\Attribute\LiveProp;
 use Symfony\UX\LiveComponent\DefaultActionTrait;
+use Symfony\UX\TwigComponent\Attribute\ExposeInTemplate;
 
 #[AsLiveComponent('chart:workforce-costs')]
 final class WorkforceCosts
@@ -35,6 +37,13 @@ final class WorkforceCosts
     public string $region;
 
 
+    private array $dataPoints = ['pioneer', 'settler', 'technician', 'engineer', 'scientist'];
+    private array $colors = ['blue', 'purple', 'red', 'orange', 'green'];
+
+    #[ExposeInTemplate]
+    private array $bounds = [];
+
+
     public function __construct(
         private readonly SerializerInterface $serializer,
         private readonly ChartBuilderInterface $chartBuilder,
@@ -42,6 +51,9 @@ final class WorkforceCosts
     }
 
 
+    /**
+     * @throws Exception
+     */
     public function getChart(): Chart
     {
         // Get Consumption Index
@@ -51,8 +63,8 @@ final class WorkforceCosts
             "csv/population-consumption-index/$market.csv"
         );
 
-        $end = new \DateTime($this->year . '-' . $this->month . '-01');
-        $start = new \DateTime($this->year . '-' . $this->month . '-01');
+        $end = new DateTime($this->year . '-' . $this->month . '-01');
+        $start = new DateTime($this->year . '-' . $this->month . '-01');
         $end->modify('last day of this month');
 
 
@@ -73,65 +85,24 @@ final class WorkforceCosts
 
         $datasets = [];
 
-        if (in_array($this->show, ['all', 'pioneer'])) {
-            $datasets[] = [
-                'label' => 'Pioneers',
-                'data' => array_values(
-                    $data->map(function (PopulationConsumptionIndex $item) {
-                        return round($item->pioneer / 100, 2);
+        foreach ($this->dataPoints as $i => $point) {
+            if (in_array($this->show, ['all', $point])) {
+                $set = array_values(
+                    $data->map(function (PopulationConsumptionIndex $item) use ($point) {
+                        return round($item->$point / 100, 2);
                     })->toArray()
-                ),
-                'borderColor' => Bootstrap::COLORS['blue'],
-                'backgroundColor' => Bootstrap::COLORS['blue'],
-            ];
-        }
-        if (in_array($this->show, ['all', 'settler'])) {
-            $datasets[] = [
-                'label' => 'Settlers',
-                'data' => array_values(
-                    $data->map(function (PopulationConsumptionIndex $item) {
-                        return round($item->settler / 100, 2);
-                    })->toArray()
-                ),
-                'borderColor' => Bootstrap::COLORS['purple'],
-                'backgroundColor' => Bootstrap::COLORS['purple'],
-            ];
-        }
-        if (in_array($this->show, ['all', 'technician'])) {
-            $datasets[] = [
-                'label' => 'Technicians',
-                'data' => array_values(
-                    $data->map(function (PopulationConsumptionIndex $item) {
-                        return round($item->technician / 100, 2);
-                    })->toArray()
-                ),
-                'borderColor' => Bootstrap::COLORS['red'],
-                'backgroundColor' => Bootstrap::COLORS['red'],
-            ];
-        }
-        if (in_array($this->show, ['all', 'engineer'])) {
-            $datasets[] = [
-                'label' => 'Engineers',
-                'data' => array_values(
-                    $data->map(function (PopulationConsumptionIndex $item) {
-                        return round($item->engineer / 100, 2);
-                    })->toArray()
-                ),
-                'borderColor' => Bootstrap::COLORS['orange'],
-                'backgroundColor' => Bootstrap::COLORS['orange'],
-            ];
-        }
-        if (in_array($this->show, ['all', 'scientist'])) {
-            $datasets[] = [
-                'label' => 'Scientists',
-                'data' => array_values(
-                    $data->map(function (PopulationConsumptionIndex $item) {
-                        return round($item->scientist / 100, 2);
-                    })->toArray()
-                ),
-                'borderColor' => Bootstrap::COLORS['green'],
-                'backgroundColor' => Bootstrap::COLORS['green'],
-            ];
+                );
+                $this->bounds[$point] = [
+                    'start' => $set[0],
+                    'end' => $set[count($set) - 1],
+                ];
+                $datasets[] = [
+                    'label' => ucfirst($point) . 's',
+                    'data' => $set,
+                    'borderColor' => Bootstrap::COLORS[$this->colors[$i]],
+                    'backgroundColor' => Bootstrap::COLORS[$this->colors[$i]],
+                ];
+            }
         }
 
         $chart = $this->chartBuilder->createChart('line');
@@ -148,5 +119,11 @@ final class WorkforceCosts
         ]);
 
         return $chart;
+    }
+
+
+    public function getBounds(): array
+    {
+        return $this->bounds;
     }
 }

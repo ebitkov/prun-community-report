@@ -28,21 +28,23 @@
     <h1>Overview</h1>
 
     <p>
-        All charts and tables are generated from the FIO Community API and might contain stale or incomplete data.
+        All data for this report is sourced from the FIO Community API and may include outdated, inaccurate, or
+        incomplete information.
     </p>
 
-    <h2>Population</h2>
+    <h2>Demography</h2>
+
+    <p>
+        The demographic report addresses the size, distribution, and costs associated with different worker tiers.
+    </p>
 
     <h3>Workforce Costs</h3>
     <p>
-        Costs per worker (basic and luxury consumables) per day. Prices are generated with the daily average market
-        price of the required consumables of 100 workers.
+        The figures displayed represent the daily cost for a single worker within each tier. The data points were
+        calculated based on the daily consumption of each worker tier (basic and luxury) and the respective average
+        daily price. To achieve this, multiple snapshots of the ask and bid prices were captured per day and averaged.
     </p>
 
-    <twig:chart:workforce-costs :region="region" :year="year" :month="month" />
-
-    <h2>Planets</h2>
-
-    <h2>Markets</h2>
+    <twig:chart:workforce-costs :region="region" :year="year" :month="month"/>
 
 {% endblock %}

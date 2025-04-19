@@ -39,4 +39,27 @@
             </label>
         {% endfor %}
     </div>
+
+    <div class="mx-4 mt-3">
+        <table class="table table-striped">
+            <thead class="fw-bold" style="font-size: .8rem">
+            <tr>
+                <td>Tier</td>
+                <td>Start</td>
+                <td>End</td>
+                <td>Δ</td>
+            </tr>
+            </thead>
+            <tbody>
+            {% for tier, data in this.bounds %}
+                <tr>
+                    <td>{{ tier|capitalize }}</td>
+                    <td>{{ data.start }}</td>
+                    <td>{{ data.end }}</td>
+                    <td>{{ (((data.end-data.start)/data.start) * 100)|round(2) }} %</td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    </div>
 </div>
