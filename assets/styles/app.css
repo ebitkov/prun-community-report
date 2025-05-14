@@ -38,11 +38,19 @@ header {
         font-weight: 700;
         color: var(--bs-gray-600);
         padding: 0 .8rem;
-        margin-bottom: 1rem;
 
         &:not(:first-child) {
             margin-top: 1rem;
         }
+    }
+
+    .nav-section:not(:first-child) {
+        padding-top: 1rem;
+    }
+
+    .nav-section:not(:last-child) {
+        padding-bottom: 1rem;
+        border-bottom: thin solid var(--bs-border-color);
     }
 
     .nav-link {
@@ -92,9 +100,69 @@ header {
     }
 }
 
+.nav-button-bar {
+    margin: 2rem 0;
+
+    ul, li {
+        list-style: none;
+        padding: 0;
+        margin: 0;
+    }
+
+    .nav-link {
+        display: inline-block;
+        background-color: var(--bs-gray-100);
+        padding: .5rem 1rem;
+        border-radius: var(--bs-border-radius-xl);
+        border: thin solid var(--bs-border-color);
+
+        &:hover {
+            background-color: var(--bs-gray-200);
+        }
+    }
+}
+
 .chart-wrapper {
     border: thin solid var(--bs-border-color);
     border-radius: var(--bs-border-radius);
     padding: 1rem;
     margin: 2rem 0;
+}
+
+.range-bars-wrapper {
+    display: inline-flex;
+    align-items: center;
+
+    &.positive {
+        .active {
+            background-color: var(--bs-success);
+        }
+    }
+
+    &.negative {
+        .active {
+            background-color: var(--bs-danger);
+        }
+    }
+}
+
+.range-bar {
+    height: 1rem;
+    width: 4px;
+    background-color: var(--bs-gray-400);
+    margin: 0 1px;
+    border-radius: 2px;
+
+    &:nth-child(3) {
+        height: 1.25rem;
+    }
+}
+
+.cogc-badge {
+    padding: .5rem;
+    line-height: 1;
+    border-radius: var(--bs-border-radius);
+    border: thin solid var(--bs-border-color);
+    display: inline-flex;
+    align-items: center;
 }

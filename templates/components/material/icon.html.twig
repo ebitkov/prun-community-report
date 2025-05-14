@@ -1,0 +1,2 @@
+{%- set classes = [ 'prun-material', 'prun-material-' ~ size, 'prun-material-' ~ material.category.slug ] -%}
+<div{{ attributes.defaults({ class: classes|join(' '), title: material.formatedName }) }}>{{ material.ticker }}</div>

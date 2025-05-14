@@ -8,30 +8,45 @@ final class Nav
         'main' => [
             'top' => [
                 'items' => [
-                    'dashboard' => [
-                        'icon' => 'fa6-solid:house',
-                        'label' => 'Dashboard',
-                        'route' => 'app_home',
+                    [
+                        'label' => 'Planets',
+                        'route' => 'app_planets',
+                    ]
+                ]
+            ],
+            'reports' => [
+                'label' => 'Monthly Economic Reports',
+                'items' => [
+                    [
+                        'label' => 'Antares',
+                        'route' => 'app_report_dashboard',
+                        'route_parameter' => [
+                            'region' => 'antares'
+                        ]
                     ]
                 ]
             ]
         ],
-        'report' => [
+        'planetReport' => [
             [
-                'label' => 'Report',
+                'items' => [
+                    [
+                        'label' => 'Back to List',
+                        'route' => 'app_home', # todo
+                        'icon' => 'fa6-solid:chevron-left'
+                    ],
+                ]
+            ],
+            [
                 'items' => [
                     [
                         'label' => 'Overview',
-                        'route' => 'app_report_dashboard'
+                        'route' => 'app_planets',
                     ],
                     [
-                        'label' => 'Planets',
-                        'route' => 'app_home'
+                        'label' => 'Population',
+                        'route' => 'app_home', # todo
                     ],
-                    [
-                        'label' => 'Markets',
-                        'route' => 'app_home'
-                    ]
                 ]
             ]
         ]

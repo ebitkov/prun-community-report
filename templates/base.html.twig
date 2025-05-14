@@ -20,18 +20,18 @@
             <nav aria-label="breadcrumb">
                 <ol class="breadcrumb">
                     {% block breadcrumbs %}
-                        <li class="breadcrumb-item active" aria-current="page">Home</li>
+                        <li class="breadcrumb-item" aria-current="page">Home</li>
                     {% endblock %}
                 </ol>
             </nav>
         </div>
     </nav>
     <main>
-        <div class="container">
+        <div class="container pb-5">
             <div class="row g-5">
-                <div class="col-3">
+                <div class="col-3 position-relative">
                     {% block sidebar %}
-                        <twig:nav :menu="sidebar_menu|default('main')" class="nav-github" :routeParameters="sidebar_route_parameters|default([])"/>
+                        <twig:nav:sidebar :menu="sidebar_menu|default('main')" class="nav-github" :routeParameters="sidebar_route_parameters|default([])"/>
                     {% endblock %}
                 </div>
                 <div class="col-9">

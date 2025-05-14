@@ -1,0 +1,186 @@
+.prun-material {
+    text-shadow: rgb(34, 34, 34) 1px 1px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 3px;
+}
+
+.prun-material-md {
+    height: 3rem;
+    width: 3rem;
+    font-size: 1rem;
+    font-weight: bold;
+}
+
+.prun-material-sm {
+    height: 2rem;
+    width: 2rem;
+    font-size: .6rem;
+    font-weight: bold;
+}
+
+.prun-material-agricultural-products {
+    background: linear-gradient(135deg, rgb(0, 56, 0), rgb(10, 71, 8));
+    color: rgb(139, 179, 123);
+}
+
+.prun-material-alloys {
+    background: linear-gradient(135deg, #7b4c1e, #946537);
+    color: rgb(250, 203, 157);
+}
+
+.prun-material-chemicals {
+    background: linear-gradient(135deg, #b72e5b, #d04774);
+    color: rgb(255, 173, 218);
+}
+
+.prun-material-construction-materials {
+    background: linear-gradient(135deg, #185bd3, #3174ec);
+    color: rgb(151, 218, 255);
+}
+
+.prun-material-construction-parts {
+    background: linear-gradient(135deg, #294d6b, #426684);
+    color: #a8ccea;
+}
+
+.prun-material-construction-prefabs {
+    background: linear-gradient(135deg, #0f1e62, #28377b);
+    color: #8e9de1;
+}
+
+.prun-material-consumables-basic {
+    background: linear-gradient(135deg, rgb(166, 44, 42), rgb(186, 54, 60));
+    color: rgb(255, 152, 158);
+}
+
+.prun-material-consumables-luxury {
+    background: linear-gradient(135deg, rgb(104, 0, 0), rgb(123, 0, 18));
+    color: rgb(219, 145, 145);
+}
+
+.prun-material-drones {
+    background: linear-gradient(135deg, #8c3412, #a54d2b);
+    color: #ffb391;
+}
+
+.prun-material-electronic-devices {
+    background: linear-gradient(135deg, #561493, #6f2dac);
+    color: #d593ff;
+}
+
+.prun-material-electronic-parts {
+    background: linear-gradient(135deg, #5b2eb7, #7447d0);
+    color: #daadff;
+}
+
+.prun-material-electronic-pieces {
+    background: linear-gradient(135deg, #7752bd, #906bd6);
+    color: #f6d1ff;
+}
+
+.prun-material-electronic-systems {
+    background: linear-gradient(135deg, #331a4c, #4c3365);
+    color: #b299cb;
+}
+
+.prun-material-elements {
+    background: linear-gradient(135deg, #3d2e20, #564739);
+    color: #bcad9f;
+}
+
+.prun-material-energy-systems {
+    background: linear-gradient(135deg, #153e27, #2e5740);
+    color: #94bda6;
+}
+
+.prun-material-fuels {
+    background: linear-gradient(135deg, #1e7b1e, #379437);
+    color: #9dfa9d;
+}
+
+.prun-material-gases {
+    background: linear-gradient(135deg, #00696b, #198284);
+    color: #7fe8ea;
+}
+
+.prun-material-liquids {
+    background: linear-gradient(135deg, rgb(103, 168, 218), rgb(96, 152, 195));
+    color: rgb(241, 255, 255);
+}
+
+.prun-material-medical-equipment {
+    background: linear-gradient(135deg, #55aa55, #6ec36e);
+    color: #d4ffd4;
+}
+
+.prun-material-metals {
+    background: linear-gradient(135deg, #363636, #4f4f4f);
+    color: #b5b5b5;
+}
+
+.prun-material-minerals {
+    background: linear-gradient(135deg, #997149, #b28a62);
+    color: #fff0c8;
+}
+
+.prun-material-ores {
+    background: linear-gradient(135deg, rgb(82, 87, 97), rgb(107, 112, 122));
+    color: rgb(209, 214, 224);
+}
+
+.prun-material-plastics {
+    background: linear-gradient(135deg, rgb(121, 31, 98), rgb(146, 56, 123));
+    color: rgb(248, 158, 225);
+}
+
+.prun-material-ship-engines {
+    background: linear-gradient(135deg, rgb(153, 41, 0), rgb(178, 66, 25));
+    color: rgb(255, 168, 127);
+}
+
+.prun-material-ship-kits {
+    background: linear-gradient(135deg, rgb(153, 84, 0), rgb(178, 109, 25));
+    color: rgb(255, 211, 127);
+}
+
+.prun-material-ship-parts {
+    background: linear-gradient(135deg, #996300, #b27c19);
+    color: #ffe27f;
+}
+
+.prun-material-ship-shields {
+    background: linear-gradient(135deg, rgb(191, 116, 10), rgb(217, 140, 33));
+    color: rgb(219, 219, 121);
+}
+
+.prun-material-software-components {
+    background: linear-gradient(135deg, rgb(136, 121, 47), rgb(161, 146, 72));
+    color: rgb(255, 248, 174);
+}
+
+.prun-material-software-systems {
+    background: linear-gradient(135deg, rgb(60, 53, 5), rgb(85, 78, 30));
+    color: rgb(187, 180, 132);
+}
+
+.prun-material-software-tools {
+    background: linear-gradient(135deg, rgb(129, 98, 19), rgb(154, 123, 44));
+    color: rgb(255, 225, 146);
+}
+
+.prun-material-textiles {
+    background: linear-gradient(135deg, rgb(82, 90, 33), rgb(107, 115, 58));
+    color: rgb(209, 217, 160);
+}
+
+.prun-material-unit-prefabs {
+    background: linear-gradient(135deg, rgb(29, 27, 28), rgb(54, 52, 53));
+    color: rgb(156, 154, 155);
+}
+
+.prun-material-utility {
+    background: linear-gradient(135deg, rgb(161, 148, 136), rgb(186, 173, 161));
+    color: rgb(255, 255, 255);
+}

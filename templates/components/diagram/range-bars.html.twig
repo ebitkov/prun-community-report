@@ -1,0 +1,7 @@
+<div{{ attributes.defaults({ class: 'range-bars-wrapper ' ~ (value > min and value < max ? 'positive' : 'negative') }) }}>
+    <div class="range-bar {{ value < min ? 'active' }}"></div>
+    <div class="range-bar {{ value/mid < 0.25 ? 'active' }}"></div>
+    <div class="range-bar active"></div>
+    <div class="range-bar {{ value/mid > 1.25 ? 'active' }}"></div>
+    <div class="range-bar {{ value > max ? 'active' }}"></div>
+</div>

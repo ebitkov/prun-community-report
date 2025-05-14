@@ -1,11 +1,11 @@
 <?php
 
-namespace App\Twig\Components;
+namespace App\Twig\Components\Nav;
 
 use Symfony\UX\TwigComponent\Attribute\AsTwigComponent;
 
-#[AsTwigComponent('nav')]
-final class Nav
+#[AsTwigComponent('nav:sidebar')]
+final class Sidebar
 {
     public string $menu;
 

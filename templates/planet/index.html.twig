@@ -1,0 +1,15 @@
+{% extends 'base.html.twig' %}
+
+
+{% block breadcrumbs %}
+    {{ parent() }}
+    <li class="breadcrumb-item">
+        Planets
+    </li>
+{% endblock %}
+
+{% block content %}
+    <h1>Planets</h1>
+
+    <twig:planets/>
+{% endblock %}

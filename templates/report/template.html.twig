@@ -1,0 +1,30 @@
+{% extends 'base.html.twig' %}
+
+{% set region = app.request.attributes.get('region') %}
+{% set year = app.request.attributes.get('year') %}
+{% set month = app.request.attributes.get('month') %}
+
+
+{% block sidebar %}
+    {% set sidebar_route_parameters = {
+        'region': region,
+        'year': year,
+        'month': month,
+    } %}
+    {{ parent() }}
+{% endblock %}
+
+{% block breadcrumbs %}
+    <li class="breadcrumb-item">
+        Economic Report
+    </li>
+    <li class="breadcrumb-item">
+        {{ region|capitalize }}
+    </li>
+    <li class="breadcrumb-item">
+        {{ year }}
+    </li>
+    <li class="breadcrumb-item">
+        {{ ('month.' ~ month)|trans(domain:'datetime') }}
+    </li>
+{% endblock %}

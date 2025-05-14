@@ -1,0 +1,24 @@
+<div{{ attributes }}>
+    <input type="search" class="form-control mb-3" placeholder="Search" data-model="debounce(1)|search"/>
+
+    <table class="table table-striped">
+        <thead>
+        <tr>
+            <th>Natural ID</th>
+            <th>Name</th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for planet in this.planets %}
+            <tr>
+                <td>
+                    <a href="{{ path('app_planet_details', {naturalId: planet.naturalId}) }}">
+                        {{ planet.naturalId }}
+                    </a>
+                </td>
+                <td>{{ planet.name }}</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+</div>

@@ -1,28 +1,5 @@
-{% extends 'base.html.twig' %}
+{% extends 'report/template.html.twig' %}
 
-
-{% block sidebar %}
-    {% set sidebar_menu = 'report' %}
-    {% set sidebar_route_parameters = {
-        'region': region,
-    } %}
-    {{ parent() }}
-{% endblock %}
-
-{% block breadcrumbs %}
-    <li class="breadcrumb-item">
-        Economic Report
-    </li>
-    <li class="breadcrumb-item">
-        {{ region|capitalize }}
-    </li>
-    <li class="breadcrumb-item">
-        {{ year }}
-    </li>
-    <li class="breadcrumb-item">
-        {{ ('month.' ~ month)|trans(domain:'datetime') }}
-    </li>
-{% endblock %}
 
 {% block content %}
     <h1>Overview</h1>

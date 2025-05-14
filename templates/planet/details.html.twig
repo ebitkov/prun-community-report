@@ -1,0 +1,229 @@
+{% extends 'base.html.twig' %}
+
+{% block title 'Planet Report for ' ~ planet.name %}
+
+
+{% block sidebar %}
+    {% set sidebar_menu = 'planetReport' %}
+    {% set sidebar_route_parameters = { naturalId: planet.naturalId } %}
+    {{ parent() }}
+{% endblock %}
+
+{% block breadcrumbs %}
+    {{ parent() }}
+    <li class="breadcrumb-item">
+        <a href="{{ path('app_planets') }}">
+            Planets
+        </a>
+    </li>
+    <li class="breadcrumb-item active">
+        <a>
+            {{ planet.name }}
+        </a>
+    </li>
+{% endblock %}
+
+{% block content %}
+    {% dump planet %}
+
+    <h1>
+        {% if planet.name != planet.naturalId %}
+            <span class="text-muted fs-4 d-inline-block me-3" style="font-family: sans-serif;">
+                {{ planet.naturalId }}
+            </span>
+        {% endif %}
+        {{ planet.name }}
+    </h1>
+
+    <div class="h4 mt-5 mb-4 px-3">
+        Environment
+    </div>
+
+    <ul class="list-group my-3">
+        <li class="list-group-item">
+            <div class="row">
+                <div class="col">Surface</div>
+                <div class="col text-end">{{ planet.surface ? 'Rocky' : 'Gaseous' }}</div>
+            </div>
+        </li>
+    </ul>
+    <ul class="list-group my-3">
+        <li class="list-group-item">
+            <div class="row">
+                <div class="col">
+                    Gravity
+                </div>
+                <div class="col d-flex align-items-center justify-content-end">
+                    <span class="text-muted d-inline-block me-3" style="font-size: .8rem">
+                        {{ planet.gravity|number_format(2) }} g
+                    </span>
+                    <twig:diagram:range-bars :min="0.25" :max="2.5" :value="planet.gravity"/>
+                </div>
+            </div>
+        </li>
+        <li class="list-group-item">
+            <div class="row">
+                <div class="col">
+                    Temperature
+                </div>
+                <div class="col d-flex align-items-center justify-content-end">
+                    <span class="text-muted d-inline-block me-3" style="font-size: .8rem">
+                        {{ planet.temperature|number_format(2) }} °C
+                    </span>
+                    <twig:diagram:range-bars :min="-25" :max="75" :value="planet.temperature"/>
+                </div>
+            </div>
+        </li>
+        <li class="list-group-item">
+            <div class="row">
+                <div class="col">
+                    Pressure
+                </div>
+                <div class="col d-flex align-items-center justify-content-end">
+                    <span class="text-muted d-inline-block me-3" style="font-size: .8rem">
+                        {{ planet.pressure|number_format(2) }} atm
+                    </span>
+                    <twig:diagram:range-bars :min="0.25" :max="2" :value="planet.pressure"/>
+                </div>
+            </div>
+        </li>
+    </ul>
+    <ul class="list-group my-3">
+        <li class="list-group-item">
+            <div class="row">
+                <div class="col">Soil fertility</div>
+                <div class="col text-end">
+                    {% set fertility = (1 + (planet.fertility * (10/33))) * 100 %}
+                    {% set label = fertility|number_format(1) %}
+                    {% if fertility >= 99 %}
+                        <span class="badge text-bg-success py-1 px-2 d-inline-flex align-items-center">
+                            <twig:ux:icon name="fa6-solid:wheat-awn" class="d-inline-block me-2" style="height: .9rem"/>
+                            {{ label }}%
+                        </span>
+                    {% elseif fertility >= 89 %}
+                        <span class="badge text-white py-1 px-2 d-inline-flex align-items-center"
+                              style="background-color: oklch(64.8% 0.2 131.684)">
+                            <twig:ux:icon name="fa6-solid:seedling" class="d-inline-block me-2" style="height: .9rem"/>
+                            {{ label }}%
+                        </span>
+                    {% elseif fertility > 0 %}
+                        <span class="badge text-bg-warning py-1 px-2 d-inline-flex align-items-center">
+                            <twig:ux:icon name="fa6-solid:plant-wilt" class="d-inline-block me-2" style="height: .9rem"/>
+                            {{ label }}%
+                        </span>
+                    {% else %}
+                        <i class="text-muted">infertile</i>
+                    {% endif %}
+                </div>
+            </div>
+        </li>
+    </ul>
+
+    <div class="h4 mt-5 mb-4 px-3">
+        Resources
+    </div>
+
+    <ul class="list-group my-3">
+        {% for resource in planet.resources %}
+            {% dump resource %}
+            <li class="list-group-item">
+                <div class="row align-items-center">
+                    <div class="col d-flex align-items-center">
+                        <twig:material:icon :material="resource.material" size="sm"/>
+                        <span class="ps-3">{{ resource.type|lower|capitalize }}</span>
+                    </div>
+                    <div class="col text-end">
+                        {{ resource.extractionRate|number_format(2) }}
+                        {% set bui = resource.type == 'GASEOUS' ? 'COL' : (resource.type == 'LIQUID' ? 'RIG' : 'EXT') %}
+                        <span class="text-muted" style="font-size: .8rem">/ {{ bui }} / day</span>
+                    </div>
+                </div>
+            </li>
+        {% else %}
+            <div class="border p-3 fst-italic text-muted text-center">
+                no resources
+            </div>
+        {% endfor %}
+    </ul>
+
+    <div class="h4 mt-5 mb-4 px-3">
+        Population
+
+        <a class="float-end fw-normal" href="#" style="font-size: 1rem">
+            POPR
+        </a>
+    </div>
+
+    {#
+    {% if popr %}
+        <twig:chart:population-report :report="popr"/>
+    {% else %}
+        <div class="border p-3 fst-italic text-muted text-center">
+            no data
+        </div>
+    {% endif %}
+    #}
+
+    <div class="h4 mt-5 mb-4 px-3">
+        Administration
+    </div>
+
+    <ul class="list-group my-3">
+        <li class="list-group-item">
+            <div class="row align-items-center">
+                <div class="col">CoGC Program</div>
+                <div class="col text-end">
+                    {% if planet.cogcProgram %}
+                        <twig:cogc :program="planet.cogcProgram"/>
+                    {% else %}
+                        <span class="badge text-bg-light">none</span>
+                    {% endif %}
+                </div>
+            </div>
+        </li>
+    </ul>
+
+    <div class="h4 mt-5 mb-4 px-3">
+        Infrastructure
+    </div>
+
+    <ul class="list-group my-3">
+        {% for item in planet.infrastructure %}
+            {% set icon = constant('App\\PrUn::INFRASTRUCTURE')[item]['icon'] %}
+            <li class="list-group-item">
+                <div class="d-inline-block p-2 me-3 border rounded" style="line-height: 1;">
+                    <twig:ux:icon :name="icon" style="height: 1rem;"/>
+                </div>
+                {{ item|trans }}
+            </li>
+        {% else %}
+            <div class="border p-3 fst-italic text-muted text-center">
+                no infrastructure build yet
+            </div>
+        {% endfor %}
+    </ul>
+
+    <div class="h4 mt-5 mb-4 px-3">
+        Sites
+    </div>
+
+    <div class="px-4 mb-3" style="font-size: .9rem">
+        {{ planet.sites.count }} total
+
+        <span class="d-inline-block ms-3 me-1"
+              style="background: var(--bs-blue);height: .5rem;width: .5rem;border-radius: 50%"></span>
+        Player
+        <span class="d-inline-block ms-3 me-1"
+              style="background: var(--bs-orange);height: .5rem;width: .5rem;border-radius: 50%"></span>
+        Infrastructure
+    </div>
+
+    <div class="d-flex flex-wrap px-3">
+        {% for site in planet.sites %}
+            {% set color = site.owner ? 'blue' : 'orange' %}
+            <div style="height: 1rem;width: 1rem;background:var(--bs-{{ color }}); margin: 3px" class="rounded-sm"
+                 title="{{ site.owner.name ?? 'Planetary Infrastructure' }}"></div>
+        {% endfor %}
+    </div>
+
+{% endblock %}

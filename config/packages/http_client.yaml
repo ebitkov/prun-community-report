@@ -1,0 +1,11 @@
+framework:
+  http_client:
+    scoped_clients:
+      fio.client:
+        base_uri: https://rest.fnar.net/
+        retry_failed:
+          max_retries: 5
+          delay: 1000
+
+      fio.extension.client:
+        base_uri: https://raw.githubusercontent.com/ebitkov/fio-extension/refs/heads/main/

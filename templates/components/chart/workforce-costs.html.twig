@@ -1,26 +1,29 @@
-<div{{ attributes.defaults({ class: 'chart-wrapper' }) }}>
-    {{ render_chart(computed.chart) }}
+<div{{ attributes.defaults({ class: 'chart-wrapper', 'data-controller': 'chart-component' }) }}>
+    {{ render_chart(computed.chart, {
+        'data-controller': 'custom-chart',
+        'data-custom-chart-view-value': computed.chart.createView|json_encode|raw
+    }) }}
 
     {% set buttons = [
         {
             label: 'Pioneer',
-            color: constant('\\App\\Bootstrap::COLORS')['blue'],
+            color: constant('\\App\\Bootstrap::COLORS')['blue']['hex'],
         },
         {
             label: 'Settler',
-            color: constant('\\App\\Bootstrap::COLORS')['purple'],
+            color: constant('\\App\\Bootstrap::COLORS')['purple']['hex'],
         },
         {
             label: 'Technician',
-            color: constant('\\App\\Bootstrap::COLORS')['red'],
+            color: constant('\\App\\Bootstrap::COLORS')['red']['hex'],
         },
         {
             label: 'Engineer',
-            color: constant('\\App\\Bootstrap::COLORS')['orange'],
+            color: constant('\\App\\Bootstrap::COLORS')['orange']['hex'],
         },
         {
             label: 'Scientist',
-            color: constant('\\App\\Bootstrap::COLORS')['green'],
+            color: constant('\\App\\Bootstrap::COLORS')['green']['hex'],
         }
     ] %}
     <div class="btn-group mt-3 ms-4">

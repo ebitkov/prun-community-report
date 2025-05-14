@@ -1,10 +1,5 @@
-<nav{{ attributes.defaults({ id: 'nav-' ~ menu }) }}>
+<nav{{ attributes.defaults({ class: 'nav-button-bar' }) }}>
     {% for group in app_nav.menu(menu) %}
-        {% if group.label %}
-            <div class="nav-section-label">
-                {{ group.label }}
-            </div>
-        {% endif %}
         <ul>
             {% for item in group.items %}
                 {% set link = path(item.route, item.route_parameter|default([])|merge(routeParameters)) %}

@@ -1,0 +1,9 @@
+<div{{ attributes.defaults({ class: 'cogc-badge' }) }}>
+    <twig:ux:icon :name="this.icon" class="me-2" style="height: 1rem;"/>
+
+    {{ this.label }}
+
+    <span class="badge text-bg-{{ this.statusColor }} ms-3">
+        {{ this.status|lower|capitalize }}
+    </span>
+</div>

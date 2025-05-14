@@ -7,4 +7,5 @@ import './bootstrap.js';
 
 // App Styles
 import './fonts/DM_Serif_Text.css';
+import './styles/prun-material-colors.css';
 import './styles/app.css';
