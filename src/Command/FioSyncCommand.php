@@ -155,7 +155,7 @@ class FioSyncCommand extends Command
                 $entity->addResource($resourceEntity);
             }
 
-            // Import infrastructure
+            // Import planetary infrastructure
             $this->io->writeln("  - importing infrastructure");
             $infrastructure = [];
 
@@ -165,7 +165,7 @@ class FioSyncCommand extends Command
             $infrastructure[] = $planet->HasLocalMarket ? Planet::INFRASTRUCTURE_LOCAL_MARKET : null;
             $infrastructure[] = $planet->HasChamberOfCommerce ? Planet::INFRASTRUCTURE_CHAMBER_OF_GLOBAL_COMMERCE : null;
 
-            $entity->setInfrastructure(array_filter($infrastructure));
+            $entity->setPlanetaryInfrastructure(array_filter($infrastructure));
 
             // Import planet sites
             $this->io->writeln("  - importing planet sites");

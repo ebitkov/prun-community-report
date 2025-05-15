@@ -10,7 +10,7 @@ use Doctrine\Migrations\AbstractMigration;
 /**
  * Auto-generated Migration: Please modify to your needs!
  */
-final class Version20250514202136 extends AbstractMigration
+final class Version20250515071513 extends AbstractMigration
 {
     public function getDescription(): string
     {
@@ -38,7 +38,7 @@ final class Version20250514202136 extends AbstractMigration
             CREATE INDEX IDX_7CBE759512469DE2 ON material (category_id)
         SQL);
         $this->addSql(<<<'SQL'
-            CREATE TABLE planet (id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, cogc_program_id INTEGER DEFAULT NULL, fio_id VARCHAR(255) NOT NULL, natural_id VARCHAR(255) NOT NULL, name VARCHAR(255) DEFAULT NULL, gravity DOUBLE PRECISION NOT NULL, pressure DOUBLE PRECISION NOT NULL, temperature DOUBLE PRECISION NOT NULL, has_surface BOOLEAN NOT NULL, fertility DOUBLE PRECISION NOT NULL, infrastructure CLOB DEFAULT NULL --(DC2Type:simple_array)
+            CREATE TABLE planet (id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, cogc_program_id INTEGER DEFAULT NULL, fio_id VARCHAR(255) NOT NULL, natural_id VARCHAR(255) NOT NULL, name VARCHAR(255) DEFAULT NULL, gravity DOUBLE PRECISION NOT NULL, pressure DOUBLE PRECISION NOT NULL, temperature DOUBLE PRECISION NOT NULL, has_surface BOOLEAN NOT NULL, fertility DOUBLE PRECISION NOT NULL, planetary_infrastructure CLOB DEFAULT NULL --(DC2Type:simple_array)
             , CONSTRAINT FK_68136AA544E133C2 FOREIGN KEY (cogc_program_id) REFERENCES cogc_program (id) NOT DEFERRABLE INITIALLY IMMEDIATE)
         SQL);
         $this->addSql(<<<'SQL'

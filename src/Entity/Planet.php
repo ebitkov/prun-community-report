@@ -60,7 +60,7 @@ class Planet
     private Collection $resources;
 
     #[ORM\Column(type: Types::SIMPLE_ARRAY, nullable: true)]
-    private ?array $infrastructure = [];
+    private ?array $planetaryInfrastructure = [];
 
     /**
      * @var Collection<int, Site>
@@ -81,7 +81,7 @@ class Planet
 
     public function hasChamberOfGlobalCommerce(): bool
     {
-        return in_array(self::INFRASTRUCTURE_CHAMBER_OF_GLOBAL_COMMERCE, $this->infrastructure);
+        return in_array(self::INFRASTRUCTURE_CHAMBER_OF_GLOBAL_COMMERCE, $this->planetaryInfrastructure);
     }
 
 
@@ -246,14 +246,14 @@ class Planet
         return $this;
     }
 
-    public function getInfrastructure(): array
+    public function getPlanetaryInfrastructure(): array
     {
-        return $this->infrastructure;
+        return $this->planetaryInfrastructure;
     }
 
-    public function setInfrastructure(array $infrastructure): static
+    public function setPlanetaryInfrastructure(array $planetaryInfrastructure): static
     {
-        $this->infrastructure = $infrastructure;
+        $this->planetaryInfrastructure = $planetaryInfrastructure;
 
         return $this;
     }
