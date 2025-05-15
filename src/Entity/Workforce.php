@@ -22,7 +22,7 @@ class Workforce
     /**
      * @var Collection<int, Need>
      */
-    #[ORM\OneToMany(targetEntity: Need::class, mappedBy: 'workforce')]
+    #[ORM\OneToMany(targetEntity: Need::class, mappedBy: 'workforce', cascade: ['persist', 'remove'])]
     private Collection $needs;
 
     public function __construct()
@@ -80,7 +80,6 @@ class Workforce
     public function clearNeeds(): static
     {
         foreach ($this->getNeeds() as $need) {
-            $need->setWorkforce(null);
             $this->removeNeed($need);
         }
 

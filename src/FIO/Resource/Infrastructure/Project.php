@@ -15,6 +15,6 @@ final class Project
     public ?int $Level = null;
     public ?int $ActiveLevel = null;
     public ?int $CurrentLevel = null;
-    public ?int $UpkeepStatus = null;
-    public ?int $UpgradeStatus = null;
+    public ?float $UpkeepStatus = null;
+    public ?float $UpgradeStatus = null;
 }

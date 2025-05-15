@@ -10,7 +10,7 @@ use Doctrine\Migrations\AbstractMigration;
 /**
  * Auto-generated Migration: Please modify to your needs!
  */
-final class Version20250515071513 extends AbstractMigration
+final class Version20250515102828 extends AbstractMigration
 {
     public function getDescription(): string
     {
@@ -21,6 +21,39 @@ final class Version20250515071513 extends AbstractMigration
     {
         // this up() migration is auto-generated, please modify it to your needs
         $this->addSql(<<<'SQL'
+            CREATE TABLE building (id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, expertise_id INTEGER DEFAULT NULL, fio_id VARCHAR(255) NOT NULL, name VARCHAR(255) NOT NULL, ticker VARCHAR(255) NOT NULL, required_pioneers INTEGER NOT NULL, required_settlers INTEGER NOT NULL, required_technicians INTEGER NOT NULL, required_engineers INTEGER NOT NULL, required_scientists INTEGER NOT NULL, area_cost INTEGER NOT NULL, CONSTRAINT FK_E16F61D49D5B92F9 FOREIGN KEY (expertise_id) REFERENCES expertise (id) NOT DEFERRABLE INITIALLY IMMEDIATE)
+        SQL);
+        $this->addSql(<<<'SQL'
+            CREATE INDEX IDX_E16F61D49D5B92F9 ON building (expertise_id)
+        SQL);
+        $this->addSql(<<<'SQL'
+            CREATE TABLE building_cost (id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, building_id INTEGER NOT NULL, material_id INTEGER NOT NULL, amount INTEGER NOT NULL, CONSTRAINT FK_BE02E3A84D2A7E12 FOREIGN KEY (building_id) REFERENCES building (id) NOT DEFERRABLE INITIALLY IMMEDIATE, CONSTRAINT FK_BE02E3A8E308AC6F FOREIGN KEY (material_id) REFERENCES material (id) NOT DEFERRABLE INITIALLY IMMEDIATE)
+        SQL);
+        $this->addSql(<<<'SQL'
+            CREATE INDEX IDX_BE02E3A84D2A7E12 ON building_cost (building_id)
+        SQL);
+        $this->addSql(<<<'SQL'
+            CREATE INDEX IDX_BE02E3A8E308AC6F ON building_cost (material_id)
+        SQL);
+        $this->addSql(<<<'SQL'
+            CREATE TABLE building_recipe (id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, building_id INTEGER NOT NULL, name VARCHAR(255) NOT NULL, standard_name VARCHAR(255) NOT NULL, duration_ms INTEGER NOT NULL, CONSTRAINT FK_CA3E6BDC4D2A7E12 FOREIGN KEY (building_id) REFERENCES building (id) NOT DEFERRABLE INITIALLY IMMEDIATE)
+        SQL);
+        $this->addSql(<<<'SQL'
+            CREATE INDEX IDX_CA3E6BDC4D2A7E12 ON building_recipe (building_id)
+        SQL);
+        $this->addSql(<<<'SQL'
+            CREATE TABLE building_recipe_ingredient (id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, material_id INTEGER NOT NULL, recipe_input_id INTEGER DEFAULT NULL, recipe_output_id INTEGER DEFAULT NULL, amount INTEGER NOT NULL, CONSTRAINT FK_29334D4CE308AC6F FOREIGN KEY (material_id) REFERENCES material (id) NOT DEFERRABLE INITIALLY IMMEDIATE, CONSTRAINT FK_29334D4C40D2BF48 FOREIGN KEY (recipe_input_id) REFERENCES building_recipe (id) NOT DEFERRABLE INITIALLY IMMEDIATE, CONSTRAINT FK_29334D4CC9C85666 FOREIGN KEY (recipe_output_id) REFERENCES building_recipe (id) NOT DEFERRABLE INITIALLY IMMEDIATE)
+        SQL);
+        $this->addSql(<<<'SQL'
+            CREATE INDEX IDX_29334D4CE308AC6F ON building_recipe_ingredient (material_id)
+        SQL);
+        $this->addSql(<<<'SQL'
+            CREATE INDEX IDX_29334D4C40D2BF48 ON building_recipe_ingredient (recipe_input_id)
+        SQL);
+        $this->addSql(<<<'SQL'
+            CREATE INDEX IDX_29334D4CC9C85666 ON building_recipe_ingredient (recipe_output_id)
+        SQL);
+        $this->addSql(<<<'SQL'
             CREATE TABLE category (id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, fio_id VARCHAR(255) NOT NULL, name VARCHAR(255) NOT NULL)
         SQL);
         $this->addSql(<<<'SQL'
@@ -30,6 +63,9 @@ final class Version20250515071513 extends AbstractMigration
         SQL);
         $this->addSql(<<<'SQL'
             CREATE TABLE company (id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, fio_id VARCHAR(255) NOT NULL, name VARCHAR(255) NOT NULL, code VARCHAR(5) NOT NULL)
+        SQL);
+        $this->addSql(<<<'SQL'
+            CREATE TABLE expertise (id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, name VARCHAR(255) NOT NULL)
         SQL);
         $this->addSql(<<<'SQL'
             CREATE TABLE material (id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, category_id INTEGER NOT NULL, fio_id VARCHAR(255) NOT NULL, name VARCHAR(255) NOT NULL, ticker VARCHAR(255) NOT NULL, mass DOUBLE PRECISION NOT NULL, volume DOUBLE PRECISION NOT NULL, CONSTRAINT FK_7CBE759512469DE2 FOREIGN KEY (category_id) REFERENCES category (id) NOT DEFERRABLE INITIALLY IMMEDIATE)
@@ -86,6 +122,18 @@ final class Version20250515071513 extends AbstractMigration
     {
         // this down() migration is auto-generated, please modify it to your needs
         $this->addSql(<<<'SQL'
+            DROP TABLE building
+        SQL);
+        $this->addSql(<<<'SQL'
+            DROP TABLE building_cost
+        SQL);
+        $this->addSql(<<<'SQL'
+            DROP TABLE building_recipe
+        SQL);
+        $this->addSql(<<<'SQL'
+            DROP TABLE building_recipe_ingredient
+        SQL);
+        $this->addSql(<<<'SQL'
             DROP TABLE category
         SQL);
         $this->addSql(<<<'SQL'
@@ -93,6 +141,9 @@ final class Version20250515071513 extends AbstractMigration
         SQL);
         $this->addSql(<<<'SQL'
             DROP TABLE company
+        SQL);
+        $this->addSql(<<<'SQL'
+            DROP TABLE expertise
         SQL);
         $this->addSql(<<<'SQL'
             DROP TABLE material

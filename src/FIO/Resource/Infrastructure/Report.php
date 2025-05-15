@@ -35,11 +35,11 @@ final class Report
     public ?float $UnemploymentRateEngineer = null;
     public ?float $UnemploymentRateScientist = null;
 
-    public ?int $OpenJobsPioneer = null;
-    public ?int $OpenJobsSettler = null;
-    public ?int $OpenJobsTechnician = null;
-    public ?int $OpenJobsEngineer = null;
-    public ?int $OpenJobsScientist = null;
+    public ?float $OpenJobsPioneer = null;
+    public ?float $OpenJobsSettler = null;
+    public ?float $OpenJobsTechnician = null;
+    public ?float $OpenJobsEngineer = null;
+    public ?float $OpenJobsScientist = null;
 
     public ?float $NeedFulfillmentLifeSupport = null;
     public ?float $NeedFulfillmentSafety = null;

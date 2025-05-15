@@ -3,6 +3,7 @@
 namespace App\FIO;
 
 use App\Entity\FIO\CSV;
+use App\FIO\Resource\Building;
 use App\FIO\Resource\Global\WorkforceNeed;
 use App\FIO\Resource\Infrastructure;
 use App\FIO\Resource\Material;
@@ -130,11 +131,11 @@ final readonly class Client
      * @throws ServerExceptionInterface
      * @throws TransportExceptionInterface
      */
-    public function getInfrastructureReport(string $id): ArrayCollection
+    public function getInfrastructureReport(string $id): Infrastructure
     {
         return $this->get(
             "/infrastructure/$id",
-            Infrastructure::class . '[]',
+            Infrastructure::class,
             requestOptions: [
                 'headers' => [
                     'accept' => 'application/json'
@@ -151,11 +152,32 @@ final readonly class Client
      * @throws RedirectionExceptionInterface
      * @throws ClientExceptionInterface
      */
-    public function getWorkforceNeeds():ArrayCollection
+    public function getWorkforceNeeds(): ArrayCollection
     {
         return $this->get(
             '/global/workforceneeds',
             WorkforceNeed::class . '[]',
+            requestOptions: [
+                'headers' => [
+                    'accept' => 'application/json'
+                ]
+            ]
+        );
+    }
+
+    /**
+     * @return ArrayCollection<int, Building>
+     *
+     * @throws ClientExceptionInterface
+     * @throws RedirectionExceptionInterface
+     * @throws ServerExceptionInterface
+     * @throws TransportExceptionInterface
+     */
+    public function getBuildings(): ArrayCollection
+    {
+        return $this->get(
+            '/building/allbuildings',
+            Building::class . '[]',
             requestOptions: [
                 'headers' => [
                     'accept' => 'application/json'

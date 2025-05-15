@@ -2,7 +2,9 @@
 
 namespace App\Command;
 
+use App\Entity\Building;
 use App\Entity\Company;
+use App\Entity\Expertise;
 use App\Entity\Material;
 use App\Entity\Material\Category;
 use App\Entity\Planet;
@@ -10,6 +12,7 @@ use App\Entity\Workforce;
 use App\FIO\Client;
 use DateTimeImmutable;
 use Doctrine\Persistence\ManagerRegistry;
+use Doctrine\Persistence\ObjectRepository;
 use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
@@ -47,6 +50,7 @@ class FioSyncCommand extends Command
         $this->io = new SymfonyStyle($input, $output);
 
         $this->importMaterials();
+        $this->importBuildings();
         $this->importWorkforceNeeds();
         // todo Buildings
         // todo Systems
@@ -87,7 +91,7 @@ class FioSyncCommand extends Command
             $categoryRepo->persist($category, true);
 
             $ticker = $entity->getTicker();
-            $this->logDebug("$ticker imported");
+            // $this->logDebug("$ticker imported");
         }
     }
 
@@ -156,7 +160,7 @@ class FioSyncCommand extends Command
             }
 
             // Import planetary infrastructure
-            $this->io->writeln("  - importing infrastructure");
+            $this->io->writeln("  - importing planetary infrastructure");
             $infrastructure = [];
 
             $infrastructure[] = $planet->HasAdministrationCenter ? Planet::INFRASTRUCTURE_ADMINISTRATION_CENTER : null;
@@ -166,6 +170,11 @@ class FioSyncCommand extends Command
             $infrastructure[] = $planet->HasChamberOfCommerce ? Planet::INFRASTRUCTURE_CHAMBER_OF_GLOBAL_COMMERCE : null;
 
             $entity->setPlanetaryInfrastructure(array_filter($infrastructure));
+
+            // Import Population Infrastructure
+            $this->io->writeln("  - importing population infrastructure");
+            $popi = $this->fio->getInfrastructureReport($naturalId);
+
 
             // Import planet sites
             $this->io->writeln("  - importing planet sites");
@@ -201,6 +210,7 @@ class FioSyncCommand extends Command
 
             // persist and push
             $planetRepo->persist($entity, true);
+            $this->doctrine->getManagerForClass(Planet::class)->clear();
         }
     }
 
@@ -263,7 +273,12 @@ class FioSyncCommand extends Command
                 ?: new Workforce();
 
             $workforce->setType($workforceNeed->WorkforceType);
-            $workforce->clearNeeds();
+
+            // Reset Workforce Needs
+            foreach ($workforce->getNeeds() as $need) {
+                $workforce->removeNeed($need);
+                $this->doctrine->getManagerForClass(Workforce\Need::class)->remove($need);
+            }
 
             foreach ($workforceNeed->Needs as $need) {
                 $material = $this->doctrine
@@ -283,5 +298,104 @@ class FioSyncCommand extends Command
 
         $this->doctrine->getManagerForClass(Workforce::class)->flush();
         $this->doctrine->getManagerForClass(Workforce::class)->clear();
+    }
+
+    private function importBuildings(): void
+    {
+        $this->io->writeln("Importing buildings");
+        $fioBuildings = $this->fio->getBuildings();
+        $em = $this->doctrine->getManager();
+
+        foreach ($fioBuildings as $_building) {
+            $building = $this->findOneByFioId(Building::class, $_building->BuildingId) ?: new Building();
+
+            $building
+                ->setFioId($_building->BuildingId)
+                ->setName($_building->Name)
+                ->setTicker($_building->Ticker)
+                ->setAreaCost($_building->AreaCost)
+                ->setRequiredPioneers($_building->Pioneers)
+                ->setRequiredSettlers($_building->Settlers)
+                ->setRequiredTechnicians($_building->Technicians)
+                ->setRequiredEngineers($_building->Engineers)
+                ->setRequiredScientists($_building->Scientists);
+
+            if ($_building->Expertise) {
+                $expertise = $this->getRepo(Expertise::class)->findOneBy(['name' => $_building->Expertise])
+                    ?: (new Expertise())->setName($_building->Expertise);
+
+                $building->setExpertise($expertise);
+                $em->persist($expertise);
+            }
+
+            // Construction Costs
+            if ($building->getConstructionCosts()->isEmpty()) {
+                foreach ($_building->BuildingCosts as $_constructionCost) {
+                    $material = $this
+                        ->getRepo(Material::class)
+                        ->findOneBy(['ticker' => $_constructionCost['CommodityTicker']]);
+
+                    $cost = (new Building\Cost())
+                        ->setAmount($_constructionCost['Amount'])
+                        ->setMaterial($material)
+                        ->setBuilding($building);
+
+                    $em->persist($cost);
+                }
+            }
+
+            // Recipes
+            foreach ($_building->Recipes as $_recipe) {
+                $lookup = $this
+                    ->getRepo(Building\Recipe::class)
+                    ->findOneBy(['standardName' => $_recipe['StandardRecipeName']]);
+
+                if (!$lookup) {
+                    $recipe = (new Building\Recipe())
+                        ->setBuilding($building)
+                        ->setName($_recipe['RecipeName'])
+                        ->setStandardName($_recipe['StandardRecipeName'])
+                        ->setDurationMs($_recipe['DurationMs']);
+
+                    foreach ($_recipe['Inputs'] as $_input) {
+                        $recipe->addInput(
+                            (new Building\Recipe\Ingredient())
+                                ->setMaterial($this->getMaterialByTicker($_input['CommodityTicker']))
+                                ->setAmount($_input['Amount'])
+                        );
+                    }
+
+                    foreach ($_recipe['Outputs'] as $_output) {
+                        $recipe->addOutput(
+                            (new Building\Recipe\Ingredient())
+                                ->setMaterial($this->getMaterialByTicker($_output['CommodityTicker']))
+                                ->setAmount($_output['Amount'])
+                        );
+                    }
+
+                    $em->persist($recipe);
+                }
+            }
+
+            $em->persist($building);
+            $em->flush();
+        }
+        $em->clear();
+    }
+
+
+    private function getRepo(string $entityFqcn): ObjectRepository
+    {
+        return $this->doctrine->getRepository($entityFqcn);
+    }
+
+    private function getMaterialByTicker(string $ticker): Material
+    {
+        return $this->getRepo(Material::class)->findOneBy(['ticker' => $ticker]);
+    }
+
+    private function findOneByFioId(string $fqcn, string $fioId)
+    {
+        return $this->getRepo($fqcn)->findOneBy(['fioId' => $fioId]);
     }
 }
