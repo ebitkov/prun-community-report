@@ -1,40 +1,40 @@
 <?php
 
-namespace App\Repository\FIO\Infrastructure;
+namespace App\Repository;
 
-use App\Entity\FIO\Infrastructure\Report;
+use App\Entity\System;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 
 /**
- * @extends ServiceEntityRepository<Report>
+ * @extends ServiceEntityRepository<System>
  */
-class ReportRepository extends ServiceEntityRepository
+class SystemRepository extends ServiceEntityRepository
 {
     public function __construct(ManagerRegistry $registry)
     {
-        parent::__construct($registry, Report::class);
+        parent::__construct($registry, System::class);
     }
 
     //    /**
-    //     * @return Report[] Returns an array of Report objects
+    //     * @return System[] Returns an array of System objects
     //     */
     //    public function findByExampleField($value): array
     //    {
-    //        return $this->createQueryBuilder('r')
-    //            ->andWhere('r.exampleField = :val')
+    //        return $this->createQueryBuilder('s')
+    //            ->andWhere('s.exampleField = :val')
     //            ->setParameter('val', $value)
-    //            ->orderBy('r.id', 'ASC')
+    //            ->orderBy('s.id', 'ASC')
     //            ->setMaxResults(10)
     //            ->getQuery()
     //            ->getResult()
     //        ;
     //    }
 
-    //    public function findOneBySomeField($value): ?Report
+    //    public function findOneBySomeField($value): ?System
     //    {
-    //        return $this->createQueryBuilder('r')
-    //            ->andWhere('r.exampleField = :val')
+    //        return $this->createQueryBuilder('s')
+    //            ->andWhere('s.exampleField = :val')
     //            ->setParameter('val', $value)
     //            ->getQuery()
     //            ->getOneOrNullResult()

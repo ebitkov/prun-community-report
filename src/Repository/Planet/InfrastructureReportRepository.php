@@ -1,8 +1,8 @@
 <?php
 
-namespace App\Repository\FIO;
+namespace App\Repository\Planet;
 
-use App\Entity\FIO\CSV\InfrastructureReport;
+use App\Entity\Planet\InfrastructureReport;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 

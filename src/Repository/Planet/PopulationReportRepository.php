@@ -1,23 +1,23 @@
 <?php
 
-namespace App\Repository\FIO\Infrastructure;
+namespace App\Repository\Planet;
 
-use App\Entity\FIO\Infrastructure\Project;
+use App\Entity\Planet\PopulationReport;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 
 /**
- * @extends ServiceEntityRepository<Project>
+ * @extends ServiceEntityRepository<PopulationReport>
  */
-class ProjectRepository extends ServiceEntityRepository
+class PopulationReportRepository extends ServiceEntityRepository
 {
     public function __construct(ManagerRegistry $registry)
     {
-        parent::__construct($registry, Project::class);
+        parent::__construct($registry, PopulationReport::class);
     }
 
     //    /**
-    //     * @return Project[] Returns an array of Project objects
+    //     * @return PopulationReport[] Returns an array of PopulationReport objects
     //     */
     //    public function findByExampleField($value): array
     //    {
@@ -31,7 +31,7 @@ class ProjectRepository extends ServiceEntityRepository
     //        ;
     //    }
 
-    //    public function findOneBySomeField($value): ?Project
+    //    public function findOneBySomeField($value): ?PopulationReport
     //    {
     //        return $this->createQueryBuilder('p')
     //            ->andWhere('p.exampleField = :val')

@@ -8,6 +8,7 @@ use App\FIO\Resource\Global\WorkforceNeed;
 use App\FIO\Resource\Infrastructure;
 use App\FIO\Resource\Material;
 use App\FIO\Resource\Planet;
+use App\FIO\Resource\SystemStar;
 use Doctrine\Common\Collections\ArrayCollection;
 use Symfony\Component\Serializer\Normalizer\AbstractNormalizer;
 use Symfony\Component\Serializer\SerializerInterface;
@@ -178,6 +179,27 @@ final readonly class Client
         return $this->get(
             '/building/allbuildings',
             Building::class . '[]',
+            requestOptions: [
+                'headers' => [
+                    'accept' => 'application/json'
+                ]
+            ]
+        );
+    }
+
+    /**
+     * @return ArrayCollection<int, SystemStar>
+     *
+     * @throws TransportExceptionInterface
+     * @throws ServerExceptionInterface
+     * @throws RedirectionExceptionInterface
+     * @throws ClientExceptionInterface
+     */
+    public function getSystemStars(): ArrayCollection
+    {
+        return $this->get(
+            '/systemstars',
+            SystemStar::class . '[]',
             requestOptions: [
                 'headers' => [
                     'accept' => 'application/json'
