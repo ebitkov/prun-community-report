@@ -82,8 +82,8 @@ class Planet
     #[ORM\OneToMany(targetEntity: InfrastructureReport::class, mappedBy: 'planet', orphanRemoval: true)]
     private Collection $populationReports;
 
-    #[ORM\Column]
-    private array $cxDistances = [];
+    #[ORM\Column(nullable: true)]
+    private ?int $jumpsToAnt = null;
 
 
     public function __construct()
@@ -327,14 +327,14 @@ class Planet
         return $this;
     }
 
-    public function getCxDistances(): array
+    public function getJumpsToAnt(): ?int
     {
-        return $this->cxDistances;
+        return $this->jumpsToAnt;
     }
 
-    public function setCxDistances(array $cxDistances): static
+    public function setJumpsToAnt(?int $jumpsToAnt): static
     {
-        $this->cxDistances = $cxDistances;
+        $this->jumpsToAnt = $jumpsToAnt;
 
         return $this;
     }

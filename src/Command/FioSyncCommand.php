@@ -61,21 +61,23 @@ class FioSyncCommand extends Command
         $this->bus->dispatch(new RunCommandMessage('fio:import:exchange-stations'));
 
         $io->writeln('Reading planet list from FIO');
-        foreach ($this->fio->getPlanets() as $planet) {
+        $io->writeln("Queuing Planet Imports");
+
+        $planets = $this->fio->getPlanets();
+        $io->progressStart($planets->count());
+        foreach ($planets as $planet) {
             $naturalId = $planet->PlanetNaturalId;
 
-            $io->writeln("Queued Planet Import for $naturalId");
             $this->bus->dispatch(new RunCommandMessage("fio:import:planet $naturalId"));
-
-            $io->writeln("Queued Planet Sites Import for $naturalId");
             $this->bus->dispatch(new RunCommandMessage("fio:import:planet-sites $naturalId"));
-
-            $io->writeln("Queued Infrastructure Report Import for $naturalId");
             $this->bus->dispatch(new RunCommandMessage("fio:import:infrastructure-report $naturalId"));
+
+            $io->progressAdvance();
         }
+        $io->progressFinish();
 
         $io->success(
-            'Queued up all imports.<br>' .
+            'Queued up all imports.\n' .
             'Run `symfony console messenger:consume command -l 1000` to run the imports.'
         );
         return Command::SUCCESS;

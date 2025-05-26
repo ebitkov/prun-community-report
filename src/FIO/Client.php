@@ -11,6 +11,7 @@ use App\FIO\Resource\Material;
 use App\FIO\Resource\Planet;
 use App\FIO\Resource\SystemStar;
 use Doctrine\Common\Collections\ArrayCollection;
+use Exception;
 use Symfony\Component\Serializer\Normalizer\AbstractNormalizer;
 use Symfony\Component\Serializer\SerializerInterface;
 use Symfony\Contracts\HttpClient\Exception\ClientExceptionInterface;
@@ -228,5 +229,21 @@ final readonly class Client
                 ]
             ]
         );
+    }
+
+    public function getJumpCount(string $source, string $destination): ?int
+    {
+        $url = "/systemstars/jumpcount/$source/$destination";
+        try {
+            $response = $this->fioClient->request('GET', $url, [
+                'headers' => [
+                    'accept' => 'application/json'
+                ]
+            ]);
+
+            return $response->getContent();
+        } catch (Exception) {
+            return null;
+        }
     }
 }

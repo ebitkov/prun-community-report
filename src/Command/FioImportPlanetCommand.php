@@ -3,6 +3,7 @@
 namespace App\Command;
 
 use App\Autoload\DoctrineAware;
+use App\Entity\ExchangeStation;
 use App\Entity\Material;
 use App\Entity\Planet;
 use App\Entity\System;
@@ -133,6 +134,17 @@ class FioImportPlanetCommand extends Command
                 $entity->setCoGCProgram($cogcProgram);
 
                 $this->persistEntity($cogcProgram);
+            }
+        }
+
+        // CX Distances
+        $io->writeln(" - determining distances to the CX");
+        foreach ($this->getRepository(ExchangeStation::class)->findAll() as $cxStation) {
+            $setter = 'setJumpsTo' . ucfirst(strtolower($cxStation->getNaturalId()));
+            if (method_exists($entity, $setter)) {
+                $jumpCount = $this->fio->getJumpCount($planetNaturalId, $cxStation->getSystem()->getNaturalId());
+                $io->writeln(" -- " .  $cxStation->getNaturalId() . ": $jumpCount");
+                $entity->$setter($jumpCount);
             }
         }
 
