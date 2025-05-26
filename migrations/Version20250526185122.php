@@ -10,7 +10,7 @@ use Doctrine\Migrations\AbstractMigration;
 /**
  * Auto-generated Migration: Please modify to your needs!
  */
-final class Version20250525205803 extends AbstractMigration
+final class Version20250526185122 extends AbstractMigration
 {
     public function getDescription(): string
     {
@@ -68,14 +68,17 @@ final class Version20250525205803 extends AbstractMigration
             CREATE TABLE expertise (id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, name VARCHAR(255) NOT NULL)
         SQL);
         $this->addSql(<<<'SQL'
-            CREATE TABLE infrastructure_report (id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, planet_id INTEGER NOT NULL, population_report_id INTEGER NOT NULL, simulation_period INTEGER NOT NULL, date DATETIME NOT NULL --(DC2Type:datetime_immutable)
-            , is_explorers_grace_enabled BOOLEAN NOT NULL, CONSTRAINT FK_517BB562A25E9820 FOREIGN KEY (planet_id) REFERENCES planet (id) NOT DEFERRABLE INITIALLY IMMEDIATE, CONSTRAINT FK_517BB56213D575B0 FOREIGN KEY (population_report_id) REFERENCES population_report (id) NOT DEFERRABLE INITIALLY IMMEDIATE)
+            CREATE TABLE infrastructure (id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, report_id INTEGER NOT NULL, type VARCHAR(255) NOT NULL, ticker VARCHAR(255) NOT NULL, name VARCHAR(255) NOT NULL, level INTEGER NOT NULL, active_level INTEGER NOT NULL, current_level INTEGER NOT NULL, CONSTRAINT FK_D129B1904BD2A4C0 FOREIGN KEY (report_id) REFERENCES infrastructure_report (id) NOT DEFERRABLE INITIALLY IMMEDIATE)
+        SQL);
+        $this->addSql(<<<'SQL'
+            CREATE INDEX IDX_D129B1904BD2A4C0 ON infrastructure (report_id)
+        SQL);
+        $this->addSql(<<<'SQL'
+            CREATE TABLE infrastructure_report (id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, planet_id INTEGER NOT NULL, simulation_period INTEGER NOT NULL, started_at DATETIME NOT NULL --(DC2Type:datetime_immutable)
+            , is_explorers_grace_enabled BOOLEAN NOT NULL, CONSTRAINT FK_517BB562A25E9820 FOREIGN KEY (planet_id) REFERENCES planet (id) NOT DEFERRABLE INITIALLY IMMEDIATE)
         SQL);
         $this->addSql(<<<'SQL'
             CREATE INDEX IDX_517BB562A25E9820 ON infrastructure_report (planet_id)
-        SQL);
-        $this->addSql(<<<'SQL'
-            CREATE UNIQUE INDEX UNIQ_517BB56213D575B0 ON infrastructure_report (population_report_id)
         SQL);
         $this->addSql(<<<'SQL'
             CREATE TABLE material (id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, category_id INTEGER NOT NULL, fio_id VARCHAR(255) NOT NULL, name VARCHAR(255) NOT NULL, ticker VARCHAR(255) NOT NULL, mass DOUBLE PRECISION NOT NULL, volume DOUBLE PRECISION NOT NULL, CONSTRAINT FK_7CBE759512469DE2 FOREIGN KEY (category_id) REFERENCES category (id) NOT DEFERRABLE INITIALLY IMMEDIATE)
@@ -100,7 +103,10 @@ final class Version20250525205803 extends AbstractMigration
             CREATE INDEX IDX_68136AA5D0952FA5 ON planet (system_id)
         SQL);
         $this->addSql(<<<'SQL'
-            CREATE TABLE population_report (id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, need_fulfillment_life_support DOUBLE PRECISION NOT NULL, need_fulfillment_safety DOUBLE PRECISION NOT NULL, need_fulfillment_health DOUBLE PRECISION NOT NULL, need_fulfillment_comfort DOUBLE PRECISION NOT NULL, need_fulfillment_culture DOUBLE PRECISION NOT NULL, need_fulfillment_education DOUBLE PRECISION NOT NULL)
+            CREATE TABLE population (id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, report_id INTEGER NOT NULL, type VARCHAR(255) NOT NULL, amount INTEGER NOT NULL, difference INTEGER NOT NULL, average_happiness DOUBLE PRECISION NOT NULL, unemployment_rate DOUBLE PRECISION NOT NULL, open_jobs INTEGER NOT NULL, CONSTRAINT FK_B449A0084BD2A4C0 FOREIGN KEY (report_id) REFERENCES infrastructure_report (id) NOT DEFERRABLE INITIALLY IMMEDIATE)
+        SQL);
+        $this->addSql(<<<'SQL'
+            CREATE INDEX IDX_B449A0084BD2A4C0 ON population (report_id)
         SQL);
         $this->addSql(<<<'SQL'
             CREATE TABLE resource (id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, material_id INTEGER NOT NULL, planet_id INTEGER NOT NULL, type VARCHAR(255) NOT NULL, factor DOUBLE PRECISION NOT NULL, CONSTRAINT FK_BC91F416E308AC6F FOREIGN KEY (material_id) REFERENCES material (id) NOT DEFERRABLE INITIALLY IMMEDIATE, CONSTRAINT FK_BC91F416A25E9820 FOREIGN KEY (planet_id) REFERENCES planet (id) NOT DEFERRABLE INITIALLY IMMEDIATE)
@@ -122,12 +128,6 @@ final class Version20250525205803 extends AbstractMigration
         SQL);
         $this->addSql(<<<'SQL'
             CREATE TABLE system (id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, fio_id VARCHAR(255) NOT NULL, name VARCHAR(255) NOT NULL, natural_id VARCHAR(255) NOT NULL)
-        SQL);
-        $this->addSql(<<<'SQL'
-            CREATE TABLE worker_report (id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, population_report_id INTEGER NOT NULL, type VARCHAR(255) NOT NULL, population INTEGER NOT NULL, difference INTEGER NOT NULL, average_happiness DOUBLE PRECISION NOT NULL, unemployment_rate DOUBLE PRECISION NOT NULL, open_jobs INTEGER NOT NULL, CONSTRAINT FK_458DC6ED13D575B0 FOREIGN KEY (population_report_id) REFERENCES population_report (id) NOT DEFERRABLE INITIALLY IMMEDIATE)
-        SQL);
-        $this->addSql(<<<'SQL'
-            CREATE INDEX IDX_458DC6ED13D575B0 ON worker_report (population_report_id)
         SQL);
         $this->addSql(<<<'SQL'
             CREATE TABLE workforce (id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, type VARCHAR(255) NOT NULL)
@@ -186,6 +186,9 @@ final class Version20250525205803 extends AbstractMigration
             DROP TABLE expertise
         SQL);
         $this->addSql(<<<'SQL'
+            DROP TABLE infrastructure
+        SQL);
+        $this->addSql(<<<'SQL'
             DROP TABLE infrastructure_report
         SQL);
         $this->addSql(<<<'SQL'
@@ -195,7 +198,7 @@ final class Version20250525205803 extends AbstractMigration
             DROP TABLE planet
         SQL);
         $this->addSql(<<<'SQL'
-            DROP TABLE population_report
+            DROP TABLE population
         SQL);
         $this->addSql(<<<'SQL'
             DROP TABLE resource
@@ -205,9 +208,6 @@ final class Version20250525205803 extends AbstractMigration
         SQL);
         $this->addSql(<<<'SQL'
             DROP TABLE system
-        SQL);
-        $this->addSql(<<<'SQL'
-            DROP TABLE worker_report
         SQL);
         $this->addSql(<<<'SQL'
             DROP TABLE workforce

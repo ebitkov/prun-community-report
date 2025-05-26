@@ -8,6 +8,7 @@ use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Messenger\RunCommandMessage;
 use Symfony\Component\Console\Output\OutputInterface;
+use Symfony\Component\Console\Style\SymfonyStyle;
 use Symfony\Component\Messenger\Exception\ExceptionInterface;
 use Symfony\Component\Messenger\MessageBusInterface;
 use Symfony\Contracts\HttpClient\Exception\ClientExceptionInterface;
@@ -41,18 +42,33 @@ class FioSyncCommand extends Command
      */
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
+        $io = new SymfonyStyle($input, $output);
+        $io->info('Starting Full Database Synchronization');
+
+        $io->writeln('Queued Material Import');
         $this->bus->dispatch(new RunCommandMessage('fio:import:materials'));
+        $io->writeln('Queued Building Import');
         $this->bus->dispatch(new RunCommandMessage('fio:import:buildings'));
+        $io->writeln('Queued Workforce Needs Import');
         $this->bus->dispatch(new RunCommandMessage('fio:import:workforce-needs'));
+        $io->writeln('Queued System Import');
         $this->bus->dispatch(new RunCommandMessage('fio:import:systems'));
 
+        $io->writeln('Reading planet list from FIO');
         foreach ($this->fio->getPlanets() as $planet) {
             $naturalId = $planet->PlanetNaturalId;
+            $io->writeln("Queued Planet Import for $naturalId");
             $this->bus->dispatch(new RunCommandMessage("fio:import:planet $naturalId"));
+            $io->writeln("Queued Planet Sites Import for $naturalId");
             $this->bus->dispatch(new RunCommandMessage("fio:import:planet-sites $naturalId"));
+            $io->writeln("Queued Infrastructure Report Import for $naturalId");
             $this->bus->dispatch(new RunCommandMessage("fio:import:infrastructure-report $naturalId"));
         }
 
+        $io->success(
+            'Queued up all imports.<br>' .
+            'Run `symfony console messenger:consume command -l 1000` to run the imports.'
+        );
         return Command::SUCCESS;
     }
 }

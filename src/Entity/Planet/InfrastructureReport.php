@@ -3,9 +3,12 @@
 namespace App\Entity\Planet;
 
 use App\Entity\Planet;
+use App\Entity\Planet\InfrastructureReport\Infrastructure;
+use App\Entity\Planet\InfrastructureReport\Population;
 use App\Repository\Planet\InfrastructureReportRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
-use Doctrine\ORM\Mapping\JoinColumn;
 
 #[ORM\Entity(repositoryClass: InfrastructureReportRepository::class)]
 class InfrastructureReport
@@ -19,18 +22,72 @@ class InfrastructureReport
     private ?int $simulationPeriod = null;
 
     #[ORM\Column]
-    private ?\DateTimeImmutable $date = null;
+    private ?\DateTimeImmutable $startedAt = null;
 
     #[ORM\Column]
     private ?bool $isExplorersGraceEnabled = null;
 
-    #[ORM\ManyToOne(inversedBy: 'infrastructureReports')]
+    /**
+     * @var Collection<int, Infrastructure>
+     */
+    #[ORM\OneToMany(targetEntity: Infrastructure::class, mappedBy: 'report', orphanRemoval: true)]
+    private Collection $infrastructures;
+
+    /**
+     * @var Collection<int, Population>
+     */
+    #[ORM\OneToMany(targetEntity: Population::class, mappedBy: 'report', cascade: ['persist', 'remove'], orphanRemoval: true)]
+    private Collection $population;
+
+    #[ORM\ManyToOne(inversedBy: 'populationReports')]
     #[ORM\JoinColumn(nullable: false)]
     private ?Planet $planet = null;
 
-    #[ORM\OneToOne(inversedBy: 'infrastructureReport', cascade: ['persist', 'remove'])]
-    #[JoinColumn(nullable: false)]
-    private ?PopulationReport $populationReport = null;
+    public function __construct()
+    {
+        $this->infrastructures = new ArrayCollection();
+        $this->population = new ArrayCollection();
+    }
+
+
+    public function getPopulationByType(string $type): Population
+    {
+        $population = $this->population
+            ->filter(function (Population $population) use ($type): bool {
+                return $population->getType() == $type;
+            })
+            ->first();
+        if (!$population) {
+            $population = (new Population())->setType($type)->setReport($this);
+        }
+        return $population;
+    }
+
+    public function getPioneers(): Population
+    {
+        return $this->getPopulationByType('pioneers');
+    }
+
+    public function getSettlers(): Population
+    {
+        return $this->getPopulationByType('settlers');
+    }
+
+    public function getTechnicians(): Population
+    {
+        return $this->getPopulationByType('technicians');
+    }
+
+    public function getEngineers(): Population
+    {
+        return $this->getPopulationByType('engineers');
+    }
+
+    public function getScientists(): Population
+    {
+        return $this->getPopulationByType('scientists');
+    }
+
 
     public function getId(): ?int
     {
@@ -49,14 +106,14 @@ class InfrastructureReport
         return $this;
     }
 
-    public function getDate(): ?\DateTimeImmutable
+    public function getStartedAt(): ?\DateTimeImmutable
     {
-        return $this->date;
+        return $this->startedAt;
     }
 
-    public function setDate(\DateTimeImmutable $date): static
+    public function setStartedAt(\DateTimeImmutable $startedAt): static
     {
-        $this->date = $date;
+        $this->startedAt = $startedAt;
 
         return $this;
     }
@@ -73,6 +130,66 @@ class InfrastructureReport
         return $this;
     }
 
+    /**
+     * @return Collection<int, Infrastructure>
+     */
+    public function getInfrastructures(): Collection
+    {
+        return $this->infrastructures;
+    }
+
+    public function addInfrastructure(Infrastructure $infrastructure): static
+    {
+        if (!$this->infrastructures->contains($infrastructure)) {
+            $this->infrastructures->add($infrastructure);
+            $infrastructure->setReport($this);
+        }
+
+        return $this;
+    }
+
+    public function removeInfrastructure(Infrastructure $infrastructure): static
+    {
+        if ($this->infrastructures->removeElement($infrastructure)) {
+            // set the owning side to null (unless already changed)
+            if ($infrastructure->getReport() === $this) {
+                $infrastructure->setReport(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Population>
+     */
+    public function getPopulation(): Collection
+    {
+        return $this->population;
+    }
+
+    public function addPopulation(Population $population): static
+    {
+        if (!$this->population->contains($population)) {
+            $this->population->add($population);
+            $population->setReport($this);
+        }
+
+        return $this;
+    }
+
+    public function removePopulation(Population $population): static
+    {
+        if ($this->population->removeElement($population)) {
+            // set the owning side to null (unless already changed)
+            if ($population->getReport() === $this) {
+                $population->setReport(null);
+            }
+        }
+
+        return $this;
+    }
+
     public function getPlanet(): ?Planet
     {
         return $this->planet;
@@ -81,23 +198,6 @@ class InfrastructureReport
     public function setPlanet(?Planet $planet): static
     {
         $this->planet = $planet;
-
-        return $this;
-    }
-
-    public function getPopulationReport(): ?PopulationReport
-    {
-        return $this->populationReport;
-    }
-
-    public function setPopulationReport(PopulationReport $populationReport): static
-    {
-        // set the owning side of the relation if necessary
-        if ($populationReport->getInfrastructureReport() !== $this) {
-            $populationReport->setInfrastructureReport($this);
-        }
-
-        $this->populationReport = $populationReport;
 
         return $this;
     }

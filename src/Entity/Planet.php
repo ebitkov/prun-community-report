@@ -72,22 +72,22 @@ class Planet
     #[ORM\OneToOne(inversedBy: 'planet', cascade: ['persist', 'remove'])]
     private ?CoGCProgram $cogcProgram = null;
 
-    /**
-     * @var Collection<int, InfrastructureReport>
-     */
-    #[ORM\OneToMany(targetEntity: InfrastructureReport::class, mappedBy: 'planet')]
-    private Collection $infrastructureReports;
-
     #[ORM\ManyToOne(inversedBy: 'planets')]
     #[ORM\JoinColumn(nullable: false)]
     private ?System $system = null;
+
+    /**
+     * @var Collection<int, InfrastructureReport>
+     */
+    #[ORM\OneToMany(targetEntity: InfrastructureReport::class, mappedBy: 'planet', orphanRemoval: true)]
+    private Collection $populationReports;
 
 
     public function __construct()
     {
         $this->resources = new ArrayCollection();
         $this->sites = new ArrayCollection();
-        $this->infrastructureReports = new ArrayCollection();
+        $this->populationReports = new ArrayCollection();
     }
 
 
@@ -282,36 +282,6 @@ class Planet
         return $this;
     }
 
-    /**
-     * @return Collection<int, InfrastructureReport>
-     */
-    public function getInfrastructureReports(): Collection
-    {
-        return $this->infrastructureReports;
-    }
-
-    public function addInfrastructureReport(InfrastructureReport $infrastructureReport): static
-    {
-        if (!$this->infrastructureReports->contains($infrastructureReport)) {
-            $this->infrastructureReports->add($infrastructureReport);
-            $infrastructureReport->setPlanet($this);
-        }
-
-        return $this;
-    }
-
-    public function removeInfrastructureReport(InfrastructureReport $infrastructureReport): static
-    {
-        if ($this->infrastructureReports->removeElement($infrastructureReport)) {
-            // set the owning side to null (unless already changed)
-            if ($infrastructureReport->getPlanet() === $this) {
-                $infrastructureReport->setPlanet(null);
-            }
-        }
-
-        return $this;
-    }
-
     public function getSystem(): ?System
     {
         return $this->system;
@@ -320,6 +290,36 @@ class Planet
     public function setSystem(?System $system): static
     {
         $this->system = $system;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, InfrastructureReport>
+     */
+    public function getPopulationReports(): Collection
+    {
+        return $this->populationReports;
+    }
+
+    public function addPopulationReport(InfrastructureReport $populationReport): static
+    {
+        if (!$this->populationReports->contains($populationReport)) {
+            $this->populationReports->add($populationReport);
+            $populationReport->setPlanet($this);
+        }
+
+        return $this;
+    }
+
+    public function removePopulationReport(InfrastructureReport $populationReport): static
+    {
+        if ($this->populationReports->removeElement($populationReport)) {
+            // set the owning side to null (unless already changed)
+            if ($populationReport->getPlanet() === $this) {
+                $populationReport->setPlanet(null);
+            }
+        }
 
         return $this;
     }

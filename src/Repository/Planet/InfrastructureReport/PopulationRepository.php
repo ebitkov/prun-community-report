@@ -1,19 +1,19 @@
 <?php
 
-namespace App\Repository\Planet;
+namespace App\Repository\Planet\InfrastructureReport;
 
-use App\Entity\Planet\PopulationReport;
+use App\Entity\Planet\InfrastructureReport\Population;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 
 /**
- * @extends ServiceEntityRepository<PopulationReport>
+ * @extends ServiceEntityRepository<Population>
  */
-class PopulationReportRepository extends ServiceEntityRepository
+class PopulationRepository extends ServiceEntityRepository
 {
     public function __construct(ManagerRegistry $registry)
     {
-        parent::__construct($registry, PopulationReport::class);
+        parent::__construct($registry, Population::class);
     }
 
     //    /**

@@ -1,21 +1,16 @@
 <?php
 
-namespace App\Entity\Planet\PopulationReport;
+namespace App\Entity\Planet\InfrastructureReport;
 
-use App\Entity\Planet\PopulationReport;
-use App\Repository\Planet\PopulationReport\WorkerReportRepository;
+use App\Entity\Planet\InfrastructureReport;
+use App\Repository\Planet\InfrastructureReport\PopulationRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
-#[ORM\Entity(repositoryClass: WorkerReportRepository::class)]
-class WorkerReport
+#[ORM\Entity(repositoryClass: PopulationRepository::class)]
+class Population
 {
-    public const TYPE_PIONEERS = 'pioneers';
-    public const TYPE_SETTLERS = 'settlers';
-    public const TYPE_TECHNICIANS = 'technicians';
-    public const TYPE_ENGINEERS = 'engineers';
-    public const TYPE_SCIENTISTS = 'scientists';
-
-
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
@@ -25,7 +20,7 @@ class WorkerReport
     private ?string $type = null;
 
     #[ORM\Column]
-    private ?int $population = null;
+    private ?int $amount = null;
 
     #[ORM\Column]
     private ?int $difference = null;
@@ -39,9 +34,13 @@ class WorkerReport
     #[ORM\Column]
     private ?int $openJobs = null;
 
-    #[ORM\ManyToOne(inversedBy: 'workerReports')]
+    #[ORM\ManyToOne(inversedBy: 'population')]
     #[ORM\JoinColumn(nullable: false)]
-    private ?PopulationReport $populationReport = null;
+    private ?InfrastructureReport $report = null;
+
+    public function __construct()
+    {
+    }
 
     public function getId(): ?int
     {
@@ -60,14 +59,14 @@ class WorkerReport
         return $this;
     }
 
-    public function getPopulation(): ?int
+    public function getAmount(): ?int
     {
-        return $this->population;
+        return $this->amount;
     }
 
-    public function setPopulation(int $population): static
+    public function setAmount(int $amount): static
     {
-        $this->population = $population;
+        $this->amount = $amount;
 
         return $this;
     }
@@ -120,14 +119,14 @@ class WorkerReport
         return $this;
     }
 
-    public function getPopulationReport(): ?PopulationReport
+    public function getReport(): ?InfrastructureReport
     {
-        return $this->populationReport;
+        return $this->report;
     }
 
-    public function setPopulationReport(?PopulationReport $populationReport): static
+    public function setReport(?InfrastructureReport $report): static
     {
-        $this->populationReport = $populationReport;
+        $this->report = $report;
 
         return $this;
     }

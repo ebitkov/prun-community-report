@@ -15,6 +15,7 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Style\SymfonyStyle;
+use Symfony\Component\PropertyAccess\PropertyAccess;
 use Symfony\Contracts\HttpClient\Exception\ClientExceptionInterface;
 use Symfony\Contracts\HttpClient\Exception\RedirectionExceptionInterface;
 use Symfony\Contracts\HttpClient\Exception\ServerExceptionInterface;
@@ -65,35 +66,60 @@ class FioImportInfrastructureReportCommand extends Command
         $io->writeln(' done');
         $io->writeln('');
 
-        foreach ($fioInfraReport->InfrastructureReports as $fioReportItem) {
-            $report = $this->findEntityBy(
-                InfrastructureReport::class,
-                ['simulationPeriod' => $fioReportItem->SimulationPeriod]
-            ) ?: new InfrastructureReport();
+        // Population
+        $populationTypes = ['pioneer', 'settler', 'technician', 'engineer', 'scientist'];
+        $accessor = PropertyAccess::createPropertyAccessor();
+        foreach ($fioInfraReport->InfrastructureReports as $popr) {
+            $report = $this->getReport($planet, $popr->SimulationPeriod);
 
-            $report
-                ->setDate(new DateTimeImmutable('@' . ($fioReportItem->TimestampMs / 1000)))
-                ->setSimulationPeriod($fioReportItem->SimulationPeriod)
-                ->setIsExplorersGraceEnabled($fioReportItem->ExplorersGraceEnabled)
-                ->setPlanet($planet);
+            $report->setIsExplorersGraceEnabled($popr->ExplorersGraceEnabled);
+            $report->setStartedAt(new DateTimeImmutable('@' . ($popr->TimestampMs / 1000)));
 
-            $popr = $report->getPopulationReport() ?: new Planet\PopulationReport();
-            $popr
-                ->setNeedFulfillmentLifeSupport($fioReportItem->NeedFulfillmentLifeSupport)
-                ->setNeedFulfillmentHealth($fioReportItem->NeedFulfillmentHealth)
-                ->setNeedFulfillmentSafety($fioReportItem->NeedFulfillmentSafety)
-                ->setNeedFulfillmentComfort($fioReportItem->NeedFulfillmentComfort)
-                ->setNeedFulfillmentCulture($fioReportItem->NeedFulfillmentCulture)
-                ->setNeedFulfillmentEducation($fioReportItem->NeedFulfillmentEducation);
+            foreach ($populationTypes as $type) {
+                /** @var InfrastructureReport\Population $population */
+                $population = $accessor->getValue($report, "{$type}s");
 
-            $report->setPopulationReport($popr);
+                $type = ucfirst($type);
+                $population
+                    ->setAmount($accessor->getValue($popr, "NextPopulation$type"))
+                    ->setDifference($accessor->getValue($popr, "PopulationDifference$type"))
+                    ->setAverageHappiness($accessor->getValue($popr, "AverageHappiness$type"))
+                    ->setUnemploymentRate($accessor->getValue($popr, "UnemploymentRate$type"))
+                    ->setOpenJobs($accessor->getValue($popr, "OpenJobs$type"));
+
+                $report->addPopulation($population);
+            }
 
             $this->persistEntity($report);
-            $this->persistEntity($popr);
+            $this->flushEntities();
         }
 
         $this->flushEntities();
 
         return Command::SUCCESS;
+    }
+
+    /**
+     * Returns and existing report or creates a new one, if missing.
+     */
+    private function getReport(Planet $planet, ?int $simulationPeriod): InfrastructureReport
+    {
+        // find an existing report first
+        $report = $this->findEntityBy(
+            InfrastructureReport::class,
+            [
+                'planet' => $planet,
+                'simulationPeriod' => $simulationPeriod,
+            ]
+        );
+
+        // if none exists, create a new one
+        if (null === $report) {
+            $report = (new InfrastructureReport())
+                ->setPlanet($planet)
+                ->setSimulationPeriod($simulationPeriod);
+        }
+
+        return $report;
     }
 }
