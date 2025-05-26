@@ -47,20 +47,29 @@ class FioSyncCommand extends Command
 
         $io->writeln('Queued Material Import');
         $this->bus->dispatch(new RunCommandMessage('fio:import:materials'));
+
         $io->writeln('Queued Building Import');
         $this->bus->dispatch(new RunCommandMessage('fio:import:buildings'));
+
         $io->writeln('Queued Workforce Needs Import');
         $this->bus->dispatch(new RunCommandMessage('fio:import:workforce-needs'));
+
         $io->writeln('Queued System Import');
         $this->bus->dispatch(new RunCommandMessage('fio:import:systems'));
+
+        $io->writeln('Queued Commodity Exchange Station Import');
+        $this->bus->dispatch(new RunCommandMessage('fio:import:exchange-stations'));
 
         $io->writeln('Reading planet list from FIO');
         foreach ($this->fio->getPlanets() as $planet) {
             $naturalId = $planet->PlanetNaturalId;
+
             $io->writeln("Queued Planet Import for $naturalId");
             $this->bus->dispatch(new RunCommandMessage("fio:import:planet $naturalId"));
+
             $io->writeln("Queued Planet Sites Import for $naturalId");
             $this->bus->dispatch(new RunCommandMessage("fio:import:planet-sites $naturalId"));
+
             $io->writeln("Queued Infrastructure Report Import for $naturalId");
             $this->bus->dispatch(new RunCommandMessage("fio:import:infrastructure-report $naturalId"));
         }

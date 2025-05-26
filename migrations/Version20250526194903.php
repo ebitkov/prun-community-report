@@ -10,7 +10,7 @@ use Doctrine\Migrations\AbstractMigration;
 /**
  * Auto-generated Migration: Please modify to your needs!
  */
-final class Version20250526185122 extends AbstractMigration
+final class Version20250526194903 extends AbstractMigration
 {
     public function getDescription(): string
     {
@@ -65,6 +65,12 @@ final class Version20250526185122 extends AbstractMigration
             CREATE TABLE company (id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, fio_id VARCHAR(255) NOT NULL, name VARCHAR(255) NOT NULL, code VARCHAR(5) NOT NULL)
         SQL);
         $this->addSql(<<<'SQL'
+            CREATE TABLE exchange_station (id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, system_id INTEGER NOT NULL, fio_id VARCHAR(255) NOT NULL, natural_id VARCHAR(255) NOT NULL, name VARCHAR(255) NOT NULL, CONSTRAINT FK_D8F32E30D0952FA5 FOREIGN KEY (system_id) REFERENCES system (id) NOT DEFERRABLE INITIALLY IMMEDIATE)
+        SQL);
+        $this->addSql(<<<'SQL'
+            CREATE INDEX IDX_D8F32E30D0952FA5 ON exchange_station (system_id)
+        SQL);
+        $this->addSql(<<<'SQL'
             CREATE TABLE expertise (id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, name VARCHAR(255) NOT NULL)
         SQL);
         $this->addSql(<<<'SQL'
@@ -88,6 +94,7 @@ final class Version20250526185122 extends AbstractMigration
         SQL);
         $this->addSql(<<<'SQL'
             CREATE TABLE planet (id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, cogc_program_id INTEGER DEFAULT NULL, system_id INTEGER NOT NULL, fio_id VARCHAR(255) NOT NULL, natural_id VARCHAR(255) NOT NULL, name VARCHAR(255) DEFAULT NULL, gravity DOUBLE PRECISION NOT NULL, pressure DOUBLE PRECISION NOT NULL, temperature DOUBLE PRECISION NOT NULL, has_surface BOOLEAN NOT NULL, fertility DOUBLE PRECISION NOT NULL, planetary_infrastructure CLOB DEFAULT NULL --(DC2Type:simple_array)
+            , cx_distances CLOB NOT NULL --(DC2Type:json)
             , CONSTRAINT FK_68136AA544E133C2 FOREIGN KEY (cogc_program_id) REFERENCES cogc_program (id) NOT DEFERRABLE INITIALLY IMMEDIATE, CONSTRAINT FK_68136AA5D0952FA5 FOREIGN KEY (system_id) REFERENCES system (id) NOT DEFERRABLE INITIALLY IMMEDIATE)
         SQL);
         $this->addSql(<<<'SQL'
@@ -181,6 +188,9 @@ final class Version20250526185122 extends AbstractMigration
         SQL);
         $this->addSql(<<<'SQL'
             DROP TABLE company
+        SQL);
+        $this->addSql(<<<'SQL'
+            DROP TABLE exchange_station
         SQL);
         $this->addSql(<<<'SQL'
             DROP TABLE expertise

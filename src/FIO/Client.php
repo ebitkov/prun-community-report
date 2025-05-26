@@ -4,6 +4,7 @@ namespace App\FIO;
 
 use App\Entity\FIO\CSV;
 use App\FIO\Resource\Building;
+use App\FIO\Resource\ExchangeStation;
 use App\FIO\Resource\Global\WorkforceNeed;
 use App\FIO\Resource\Infrastructure;
 use App\FIO\Resource\Material;
@@ -200,6 +201,27 @@ final readonly class Client
         return $this->get(
             '/systemstars',
             SystemStar::class . '[]',
+            requestOptions: [
+                'headers' => [
+                    'accept' => 'application/json'
+                ]
+            ]
+        );
+    }
+
+    /**
+     * @return ArrayCollection<int, ExchangeStation>
+     *
+     * @throws TransportExceptionInterface
+     * @throws ServerExceptionInterface
+     * @throws RedirectionExceptionInterface
+     * @throws ClientExceptionInterface
+     */
+    public function getExchangeStations(): ArrayCollection
+    {
+        return $this->get(
+            '/exchange/station',
+            ExchangeStation::class . '[]',
             requestOptions: [
                 'headers' => [
                     'accept' => 'application/json'
