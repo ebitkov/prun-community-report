@@ -3,6 +3,9 @@
 This is an unofficial economic report for [Prosperous Universe](https://prosperousuniverse.com/), made by the community,
 with data from the [FNAR FIO API](https://doc.fnar.net/).
 
+> [!NOTE]
+> This project is still in development. The code, design and features can change drastically.
+
 ## Development
 
 ### Stack
