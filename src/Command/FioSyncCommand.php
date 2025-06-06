@@ -6,6 +6,7 @@ use App\FIO\Client;
 use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
+use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Messenger\RunCommandMessage;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Style\SymfonyStyle;
@@ -22,6 +23,15 @@ use Symfony\Contracts\HttpClient\Exception\TransportExceptionInterface;
 )]
 class FioSyncCommand extends Command
 {
+    private const CX_SYSTEMS = [
+        'antares' => 'ZV-307',
+        'benten' => 'UV-351',
+        'arclight' => 'AM-783',
+        'moria' => 'OT-580',
+        'hortus' => 'VH-331',
+        'hubur' => 'TD-203',
+    ];
+
     public function __construct(
         private readonly MessageBusInterface $bus,
         private readonly Client $fio,
@@ -31,6 +41,13 @@ class FioSyncCommand extends Command
 
     protected function configure(): void
     {
+        $this->addOption(
+            'region',
+            'r',
+            InputOption::VALUE_OPTIONAL,
+            'Filters the planets by region. This takes a bit longer, since it filters the planets by distance to the regional CX. '.
+            'Possible values are: antares, arclight, benten, hortus, hubur, moria'
+        );
     }
 
     /**
@@ -43,6 +60,13 @@ class FioSyncCommand extends Command
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
         $io = new SymfonyStyle($input, $output);
+        $region = $input->getOption('region');
+
+        if (!in_array($region, array_keys(self::CX_SYSTEMS))) {
+            $io->error("Invalid region '$region'");
+            return Command::FAILURE;
+        }
+
         $io->info('Starting Full Database Synchronization');
 
         $io->writeln('Queued Material Import');
@@ -61,16 +85,23 @@ class FioSyncCommand extends Command
         $this->bus->dispatch(new RunCommandMessage('fio:import:exchange-stations'));
 
         $io->writeln('Reading planet list from FIO');
-        $io->writeln("Queuing Planet Imports");
+        $io->writeln("Queuing Planet Imports" . ($region ? " for $region" : ''));
 
         $planets = $this->fio->getPlanets();
         $io->progressStart($planets->count());
         foreach ($planets as $planet) {
             $naturalId = $planet->PlanetNaturalId;
 
-            $this->bus->dispatch(new RunCommandMessage("fio:import:planet $naturalId"));
-            $this->bus->dispatch(new RunCommandMessage("fio:import:planet-sites $naturalId"));
-            $this->bus->dispatch(new RunCommandMessage("fio:import:infrastructure-report $naturalId"));
+            $distanceToCx = null;
+            if ($region) {
+                $distanceToCx = $this->fio->getJumpCount($naturalId, self::CX_SYSTEMS[$region]);;
+            }
+
+            if ($distanceToCx && $distanceToCx <= 5) {
+                $this->bus->dispatch(new RunCommandMessage("fio:import:planet $naturalId"));
+                $this->bus->dispatch(new RunCommandMessage("fio:import:planet-sites $naturalId"));
+                $this->bus->dispatch(new RunCommandMessage("fio:import:infrastructure-report $naturalId"));
+            }
 
             $io->progressAdvance();
         }
