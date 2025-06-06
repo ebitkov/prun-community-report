@@ -117,22 +117,24 @@ final class WorkforceCosts
 
         $datasets = [];
 
-        foreach ($this->dataPoints as $i => $point) {
-            $set = array_values(
-                $data->map(function (PopulationConsumptionIndex $item) use ($point) {
-                    return round($item->$point / 100, 2);
-                })->toArray()
-            );
-            $this->bounds[$point] = [
-                'start' => $set[0],
-                'end' => $set[count($set) - 1],
-            ];
-            $datasets[] = [
-                'label' => ucfirst($point) . 's',
-                'data' => $set,
-                'borderColor' => Bootstrap::COLORS[$this->colors[$i]]['hex'],
-                'backgroundColor' => Bootstrap::COLORS[$this->colors[$i]]['hex'],
-            ];
+        if ($data->count()) {
+            foreach ($this->dataPoints as $i => $point) {
+                $set = array_values(
+                    $data->map(function (PopulationConsumptionIndex $item) use ($point) {
+                        return round($item->$point / 100, 2);
+                    })->toArray()
+                );
+                $this->bounds[$point] = [
+                    'start' => $set[0],
+                    'end' => $set[count($set) - 1],
+                ];
+                $datasets[] = [
+                    'label' => ucfirst($point) . 's',
+                    'data' => $set,
+                    'borderColor' => Bootstrap::COLORS[$this->colors[$i]]['hex'],
+                    'backgroundColor' => Bootstrap::COLORS[$this->colors[$i]]['hex'],
+                ];
+            }
         }
 
         $chart = $this->chartBuilder->createChart('line');
