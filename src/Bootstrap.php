@@ -45,6 +45,9 @@ final class Bootstrap
             'hex' => '#0dcaf0',
             'rgb' => [13, 202, 240],
         ],
+        'gray' => [
+            'hex' => '#adb5bd',
+        ],
     ];
 
     public static function rgbToHex(array $rgb): string

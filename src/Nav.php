@@ -37,8 +37,12 @@ final class Nav
                 ]
             ],
             'anchors' => [
-                'label' => 'Report',
+                'label' => 'Regional Report',
                 'items' => [
+                    [
+                        'label' => 'Planets',
+                        'anchor' => 'planets',
+                    ],
                     [
                         'label' => 'Demography',
                         'anchor' => 'demography',

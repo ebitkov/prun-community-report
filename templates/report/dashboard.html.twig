@@ -22,13 +22,22 @@
         incomplete information.
     </p>
 
-    <h2>Demography</h2>
+    <h2 id="planets">Planets</h2>
+
+    <p>
+        This sections highlights the planets of the region and their environmental conditions. The regional population
+        is discussed in the <a href="#demography">Demography</a> section.
+    </p>
+
+    <twig:chart:planets :region="region"/>
+
+    <h2 id="demography">Demography</h2>
 
     <p>
         The demographic report addresses the size, distribution, and costs associated with different worker tiers.
     </p>
 
-    <h3>Workforce Costs</h3>
+    <h3 id="workforce-costs">Workforce Costs</h3>
     <p>
         The figures displayed represent the daily cost for a single worker within each tier. The data points were
         calculated based on the daily consumption of each worker tier (basic and luxury) and the respective average
