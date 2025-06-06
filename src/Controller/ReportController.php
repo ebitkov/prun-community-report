@@ -12,7 +12,8 @@ use Symfony\Component\Routing\Attribute\Route;
 #[Route(
     '/report/{region}/{month}/{year}',
     name: 'app_report_',
-    defaults: ['month' => null, 'year' => null]
+    requirements: ['month' => '\d{2}', 'year' => '\d{4}'],
+    defaults: ['month' => null, 'year' => null],
 )]
 final class ReportController extends AbstractController
 {

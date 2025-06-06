@@ -15,7 +15,7 @@ final class HomeController extends AbstractController
         return $this->redirectToRoute('app_report_dashboard', [
             'region' => 'antares',
             'year' => $today->format('Y'),
-            'month' => $today->format('n'),
+            'month' => $today->format('m'),
         ]);
     }
 }
