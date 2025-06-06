@@ -26,12 +26,7 @@ After cloning the repository:
 
 1. Run `composer install` to install the dependencies
 2. Run `php bin/console doctrine:migrations:migrate` to setup the local database (SQLite).
-3. Run `php bin/console fio` to see all available import commands from FIO. Use `php bin/console fio:sync` to queue up a
-   full import. This can take a few hours. The command will only queue up the required commands. To actually import the
-   data, you have to
-   [start a message consumer](https://symfony.com/doc/current/messenger.html#consuming-messages-running-the-worker):<br>
-   `php bin/console messenger:consume command -l 1000`<br>
-   The consumer will stop after 1,000 commands to prevent memory runouts. You will need to restart it a few times.
+3. [Sync the required data from FIO](https://github.com/ebitkov/prun-community-report/wiki/How-to-Sync-Data-from-FIO%3F)
 4. Run `php bin/console server:run` to start the local web server. After that, you can access the application at
    `http://localhost:8000`.
 
