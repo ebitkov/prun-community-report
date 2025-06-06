@@ -7,7 +7,12 @@ use App\Entity\Planet;
 final class PrUn
 {
     public const MARKETS = [
-        'antares' => 'AI1'
+        'antares' => 'AI1',
+        'arclight' => 'CI2',
+        'benten' => 'CI1',
+        'hortus' => 'IC1',
+        'hubur' => 'NC2',
+        'moria' => 'NC1',
     ];
 
     public const INFRASTRUCTURE = [

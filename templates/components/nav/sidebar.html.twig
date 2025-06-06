@@ -7,7 +7,7 @@
         {% endif %}
         <ul class="nav-section">
             {% for item in group.items %}
-                {% set link = path(item.route, item.route_parameter|default([])|merge(routeParameters)) %}
+                {% set link = this.navItemLink(item) %}
                 <li class="nav-item">
                     <a href="{{ link }}" class="nav-link {{- app.request.requestUri == link ? ' active' }}">
                         {% if item.icon is defined %}

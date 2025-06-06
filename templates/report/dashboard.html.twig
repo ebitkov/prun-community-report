@@ -2,6 +2,19 @@
 
 
 {% block content %}
+    <nav class="pb-3 mb-5 border-bottom row row-cols-2 align-content-between w-100" style="font-size: .9rem">
+        {%- set prev_month = month-1 -%}
+        {%- set next_month = month+1 -%}
+        <a class="link d-block"
+           href="{{ path('app_report_dashboard', {region: region, month: '%02d'|format(prev_month>0?prev_month:12), year: (prev_month>0?year:year-1)}) }}">
+            ‹ Previous
+        </a>
+        <a class="link d-block text-end"
+           href="{{ path('app_report_dashboard', {region: region, month: '%02d'|format(next_month<13?next_month:1), year: (next_month<13?year:year+1)}) }}">
+            Next ›
+        </a>
+    </nav>
+
     <h1>Overview</h1>
 
     <p>

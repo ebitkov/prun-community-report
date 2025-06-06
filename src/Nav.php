@@ -27,6 +27,76 @@ final class Nav
                 ]
             ]
         ],
+        'report' => [
+            'top' => [
+                'items' => [
+                    [
+                        'label' => 'Back to Dashboard',
+                        'route' => 'app_home',
+                    ],
+                ]
+            ],
+            'anchors' => [
+                'label' => 'Report',
+                'items' => [
+                    [
+                        'label' => 'Demography',
+                        'anchor' => 'demography',
+                    ],
+                    [
+                        'label' => 'Workforce Costs',
+                        'anchor' => 'workforce-costs',
+                    ]
+                ],
+            ],
+            'other_reports' => [
+                'label' => 'Other Regions',
+                'items' => [
+                    [
+                        'label' => 'Antares',
+                        'route' => 'app_report_dashboard',
+                        'route_parameter' => [
+                            'region' => 'antares'
+                        ]
+                    ],
+                    [
+                        'label' => 'Arclight',
+                        'route' => 'app_report_dashboard',
+                        'route_parameter' => [
+                            'region' => 'arclight'
+                        ]
+                    ],
+                    [
+                        'label' => 'Benten',
+                        'route' => 'app_report_dashboard',
+                        'route_parameter' => [
+                            'region' => 'benten'
+                        ]
+                    ],
+                    [
+                        'label' => 'Hortus',
+                        'route' => 'app_report_dashboard',
+                        'route_parameter' => [
+                            'region' => 'hortus'
+                        ]
+                    ],
+                    [
+                        'label' => 'Hubur',
+                        'route' => 'app_report_dashboard',
+                        'route_parameter' => [
+                            'region' => 'hubur'
+                        ]
+                    ],
+                    [
+                        'label' => 'Moria',
+                        'route' => 'app_report_dashboard',
+                        'route_parameter' => [
+                            'region' => 'moria'
+                        ]
+                    ],
+                ]
+            ]
+        ],
         'planetReport' => [
             [
                 'items' => [

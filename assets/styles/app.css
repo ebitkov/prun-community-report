@@ -20,6 +20,16 @@ header {
     background-color: var(--bs-primary);
 }
 
+.link {
+    color: inherit;
+    text-decoration: dotted;
+
+    &:hover {
+        color: var(--bs-link-color);
+        text-decoration: underline;
+    }
+}
+
 #nav-breadcrumbs {
     padding: 1rem 0;
     margin-bottom: 1rem;
