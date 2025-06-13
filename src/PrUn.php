@@ -15,6 +15,15 @@ final class PrUn
         'moria' => 'NC1',
     ];
 
+    public const STATIONS = [
+        'antares' => 'ANT',
+        'arclight' => 'ARC',
+        'benten' => 'BEN',
+        'hortus' => 'HOR',
+        'hubur' => 'HUB',
+        'moria' => 'MOR',
+    ];
+
     public const INFRASTRUCTURE = [
         Planet::INFRASTRUCTURE_ADMINISTRATION_CENTER => [
             'icon' => 'fa6-solid:building-columns',

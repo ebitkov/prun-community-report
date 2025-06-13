@@ -6,30 +6,22 @@
         }) }}
     </div>
 
+    {% set buttons = [
+        'Colonization',
+        'Surface',
+        'Temperature',
+        'Gravitation',
+        'Pressure',
+        'Fertility'
+    ] %}
     <div class="btn-group mt-5">
-        <label class="btn  btn-light">
-            <input type="radio" data-model="show" name="show" value="all" checked hidden>
-            Colonization
-        </label>
-        <label class="btn  btn-light">
-            <input type="radio" data-model="show" name="show" value="all" checked hidden>
-            Surface
-        </label>
-        <label class="btn  btn-light">
-            <input type="radio" data-model="show" name="show" value="all" checked hidden>
-            Temperature
-        </label>
-        <label class="btn  btn-light">
-            <input type="radio" data-model="show" name="show" value="all" checked hidden>
-            Gravitation
-        </label>
-        <label class="btn  btn-light">
-            <input type="radio" data-model="show" name="show" value="all" checked hidden>
-            Pressure
-        </label>
-        <label class="btn  btn-light">
-            <input type="radio" data-model="show" name="show" value="all" checked hidden>
-            Fertility
-        </label>
+        {% for btn in buttons %}
+            {%- set active = view == btn|lower -%}
+            <label class="btn btn-light {{- active ? ' active' }}">
+                <input type="radio" data-model="view" name="view" value="{{ btn|lower }}"
+                        {{ active ? 'checked' }} hidden>
+                {{ btn }}
+            </label>
+        {% endfor %}
     </div>
 </div>

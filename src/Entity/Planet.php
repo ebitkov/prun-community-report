@@ -99,6 +99,11 @@ class Planet
         return in_array(self::INFRASTRUCTURE_CHAMBER_OF_GLOBAL_COMMERCE, $this->planetaryInfrastructure);
     }
 
+    public function isFertile(): bool
+    {
+        return $this->fertility != -1;
+    }
+
 
     public function getId(): ?int
     {
