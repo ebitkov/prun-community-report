@@ -109,7 +109,7 @@ class FioSyncCommand extends Command
                 $distanceToCx = $planet->$property;
             }
 
-            if ($distanceToCx && $distanceToCx <= 5) {
+            if (null !== $distanceToCx && $distanceToCx <= 5) {
                 $this->bus->dispatch(new RunCommandMessage("fio:import:planet $naturalId"));
                 $this->bus->dispatch(new RunCommandMessage("fio:import:planet-sites $naturalId"));
                 $this->bus->dispatch(new RunCommandMessage("fio:import:infrastructure-report $naturalId"));
