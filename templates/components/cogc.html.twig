@@ -1,9 +1,14 @@
-<div{{ attributes.defaults({ class: 'cogc-badge' }) }}>
-    <twig:ux:icon :name="this.icon" class="me-2" style="height: 1rem;"/>
+<div{{ attributes.defaults({ class: 'cogc-badge' ~ (program.status == 'ON_STRIKE' ? ' text-bg-danger') }) }}>
+    {% if program.status == 'ON_STRIKE' %}
+        <twig:ux:icon name="fa6-solid:circle-stop" class="me-2" style="height: 1rem;"/>
+        On Strike
+    {% else %}
+        <twig:ux:icon :name="this.icon" class="me-2" style="height: 1rem;"/>
 
-    {{ this.label }}
+        {{ this.label }}
 
-    <span class="badge text-bg-{{ this.statusColor }} ms-3">
-        {{ this.status|lower|capitalize }}
-    </span>
+        <span class="badge text-bg-{{ this.statusColor }} ms-3">
+            {{ this.status|lower|capitalize }}
+        </span>
+    {% endif %}
 </div>

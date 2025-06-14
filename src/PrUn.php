@@ -51,19 +51,34 @@ final class PrUn
             'label' => 'Chemistry',
             'icon' => 'fa6-solid:flask',
         ],
-        'Construction',
+        'ADVERTISING_CONSTRUCTION' => [
+            'label' => 'Construction',
+            'icon' => 'fa6-solid:screwdriver-wrench',
+        ],
         'ADVERTISING_ELECTRONICS' => [
             'label' => 'Electronics',
             'icon' => 'fa6-solid:microchip',
         ],
-        'Food Industries',
-        'Fuel Refining',
-        'Manufacturing',
+        'ADVERTISING_FOOD_INDUSTRIES' => [
+            'label' => 'Food Industries',
+            'icon' => 'fa6-solid:bowl-food',
+        ],
+        'ADVERTISING_FUEL_REFINING' => [
+            'label' => 'Fuel Refining',
+            'icon' => 'fa6-solid:gas-pump',
+        ],
+        'ADVERTISING_MANUFACTURING' => [
+            'label' => 'Manufacturing',
+            'icon' => 'fa6-solid:gears',
+        ],
         'ADVERTISING_METALLURGY' => [
             'label' => 'Metallurgy',
             'icon' => 'fa6-solid:fire'
         ],
-        'Resource Extraction',
+        'ADVERTISING_RESOURCE_EXTRACTION' => [
+            'label' => 'Resource Extraction',
+            'icon' => 'fa6-solid:gem'
+        ],
         'Pioneers',
         'Settlers',
         'Technicians',
