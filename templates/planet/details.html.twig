@@ -24,8 +24,6 @@
 {% endblock %}
 
 {% block content %}
-    {% dump planet %}
-
     <h1>
         {% if planet.name != planet.naturalId %}
             <span class="text-muted fs-4 d-inline-block me-3" style="font-family: sans-serif;">
@@ -126,7 +124,6 @@
 
     <ul class="list-group my-3">
         {% for resource in planet.resources %}
-            {% dump resource %}
             <li class="list-group-item">
                 <div class="row align-items-center">
                     <div class="col d-flex align-items-center">
