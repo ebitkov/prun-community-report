@@ -155,7 +155,13 @@
         </a>
     </div>
 
-    <twig:chart:population-report :planet="planet"/>
+    {% if planet.populationReports.count > 0 %}
+        <twig:chart:population-report :planet="planet"/>
+    {% else %}
+        <div class="border p-3 fst-italic text-muted text-center">
+            no population
+        </div>
+    {% endif %}
 
     <div class="h4 mt-5 mb-4 px-3">
         Administration
