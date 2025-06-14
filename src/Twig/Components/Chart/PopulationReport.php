@@ -80,7 +80,7 @@ final class PopulationReport
     }
 
 
-    public function getLatestReport(): InfrastructureReport
+    public function getLatestReport(): ?InfrastructureReport
     {
         return $this->planet->getPopulationReports()->last();
     }
