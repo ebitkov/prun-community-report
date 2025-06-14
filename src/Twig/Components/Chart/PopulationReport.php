@@ -3,7 +3,8 @@
 namespace App\Twig\Components\Chart;
 
 use App\Bootstrap;
-use App\Entity\FIO\CSV\InfrastructureReport;
+use App\Entity\Planet;
+use App\Entity\Planet\InfrastructureReport;
 use Symfony\UX\Chartjs\Builder\ChartBuilderInterface;
 use Symfony\UX\Chartjs\Model\Chart;
 use Symfony\UX\TwigComponent\Attribute\AsTwigComponent;
@@ -11,7 +12,7 @@ use Symfony\UX\TwigComponent\Attribute\AsTwigComponent;
 #[AsTwigComponent('chart:population-report')]
 final class PopulationReport
 {
-    public ?InfrastructureReport $report = null;
+    public Planet $planet;
 
 
     public function __construct(
@@ -30,12 +31,13 @@ final class PopulationReport
             'Scientists'
         ];
 
+        $latestReport = $this->getLatestReport();
         $data = [
-            $this->report->getNextPopulationPioneer(),
-            $this->report->getNextPopulationSettler(),
-            $this->report->getNextPopulationTechnician(),
-            $this->report->getNextPopulationEngineer(),
-            $this->report->getNextPopulationScientist(),
+            $latestReport->getPioneers()->getAmount(),
+            $latestReport->getSettlers()->getAmount(),
+            $latestReport->getTechnicians()->getAmount(),
+            $latestReport->getEngineers()->getAmount(),
+            $latestReport->getScientists()->getAmount(),
         ];
 
         $chart = $this->chartBuilder->createChart('pie');
@@ -45,11 +47,11 @@ final class PopulationReport
                 [
                     'data' => $data,
                     'backgroundColor' => [
-                        Bootstrap::COLORS['blue'],
-                        Bootstrap::COLORS['purple'],
-                        Bootstrap::COLORS['red'],
-                        Bootstrap::COLORS['orange'],
-                        Bootstrap::COLORS['green']
+                        Bootstrap::COLORS['blue']['hex'],
+                        Bootstrap::COLORS['purple']['hex'],
+                        Bootstrap::COLORS['red']['hex'],
+                        Bootstrap::COLORS['orange']['hex'],
+                        Bootstrap::COLORS['green']['hex']
                     ]
                 ]
             ]
@@ -58,7 +60,7 @@ final class PopulationReport
             'maintainAspectRatio' => false,
             'plugins' => [
                 'legend' => [
-                    'position' => 'bottom'
+                    'position' => 'right'
                 ]
             ]
         ]);
@@ -68,11 +70,18 @@ final class PopulationReport
 
     public function getTotal(): int
     {
+        $latest = $this->getLatestReport();
         return
-            $this->report->getNextPopulationPioneer() +
-            $this->report->getNextPopulationSettler() +
-            $this->report->getNextPopulationTechnician() +
-            $this->report->getNextPopulationEngineer() +
-            $this->report->getNextPopulationScientist();
+            $latest->getPioneers()->getAmount() +
+            $latest->getSettlers()->getAmount() +
+            $latest->getTechnicians()->getAmount() +
+            $latest->getEngineers()->getAmount() +
+            $latest->getScientists()->getAmount();
+    }
+
+
+    public function getLatestReport(): InfrastructureReport
+    {
+        return $this->planet->getPopulationReports()->last();
     }
 }

@@ -1,6 +1,9 @@
-<div{{ attributes.defaults({ class: 'chart-wrapper' }) }}>
-    <div style="height: 400px">
-        {{ render_chart(computed.chart) }}
+<div{{ attributes.defaults({ class: 'chart-wrapper', 'data-controller': 'chart-component' }) }}>
+    <div style="height: 400px;">
+        {{ render_chart(computed.chart, {
+            'data-controller': 'custom-chart',
+            'data-custom-chart-view-value': computed.chart.createView|json_encode|raw
+        }) }}
     </div>
 
     <div class="mx-4 mt-3">
@@ -18,23 +21,23 @@
             </tr>
             <tr>
                 <td>Pioneers</td>
-                <td class="text-end">{{ report.nextPopulationPioneer|number_format }}</td>
+                <td class="text-end">{{ computed.latestReport.pioneers.amount|number_format }}</td>
             </tr>
             <tr>
                 <td>Settlers</td>
-                <td class="text-end">{{ report.nextPopulationSettler|number_format }}</td>
+                <td class="text-end">{{ computed.latestReport.settlers.amount|number_format }}</td>
             </tr>
             <tr>
                 <td>Technicians</td>
-                <td class="text-end">{{ report.nextPopulationTechnician|number_format }}</td>
+                <td class="text-end">{{ computed.latestReport.technicians.amount|number_format }}</td>
             </tr>
             <tr>
                 <td>Engineers</td>
-                <td class="text-end">{{ report.nextPopulationEngineer|number_format }}</td>
+                <td class="text-end">{{ computed.latestReport.engineers.amount|number_format }}</td>
             </tr>
             <tr>
                 <td>Scientists</td>
-                <td class="text-end">{{ report.nextPopulationScientist|number_format }}</td>
+                <td class="text-end">{{ computed.latestReport.scientists.amount|number_format }}</td>
             </tr>
             </tbody>
         </table>

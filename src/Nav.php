@@ -115,7 +115,7 @@ final class Nav
                 'items' => [
                     [
                         'label' => 'Back to List',
-                        'route' => 'app_home', # todo
+                        'route' => 'app_planets',
                         'icon' => 'fa6-solid:chevron-left'
                     ],
                 ]

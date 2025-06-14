@@ -108,7 +108,8 @@
                         </span>
                     {% elseif fertility > 0 %}
                         <span class="badge text-bg-warning py-1 px-2 d-inline-flex align-items-center">
-                            <twig:ux:icon name="fa6-solid:plant-wilt" class="d-inline-block me-2" style="height: .9rem"/>
+                            <twig:ux:icon name="fa6-solid:plant-wilt" class="d-inline-block me-2"
+                                          style="height: .9rem"/>
                             {{ label }}%
                         </span>
                     {% else %}
@@ -154,15 +155,7 @@
         </a>
     </div>
 
-    {#
-    {% if popr %}
-        <twig:chart:population-report :report="popr"/>
-    {% else %}
-        <div class="border p-3 fst-italic text-muted text-center">
-            no data
-        </div>
-    {% endif %}
-    #}
+    <twig:chart:population-report :planet="planet"/>
 
     <div class="h4 mt-5 mb-4 px-3">
         Administration
