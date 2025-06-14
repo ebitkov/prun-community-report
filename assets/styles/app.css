@@ -32,8 +32,13 @@ header {
 
 #nav-breadcrumbs {
     padding: 1rem 0;
-    margin-bottom: 1rem;
+    margin-bottom: 2rem;
     font-size: .9rem;
+    background-color: #fff3cd;
+
+    .breadcrumb {
+        margin-bottom: 0;
+    }
 }
 
 .nav-github {
