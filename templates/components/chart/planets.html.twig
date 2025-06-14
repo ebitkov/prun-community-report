@@ -6,22 +6,34 @@
         }) }}
     </div>
 
-    {% set buttons = [
-        'Colonization',
-        'Surface',
-        'Temperature',
-        'Gravitation',
-        'Pressure',
-        'Fertility'
-    ] %}
-    <div class="btn-group mt-5">
-        {% for btn in buttons %}
-            {%- set active = view == btn|lower -%}
-            <label class="btn btn-light {{- active ? ' active' }}">
-                <input type="radio" data-model="view" name="view" value="{{ btn|lower }}"
-                        {{ active ? 'checked' }} hidden>
-                {{ btn }}
-            </label>
-        {% endfor %}
+    <div class="d-flex justify-content-between mt-5">
+        {% set buttons = [
+            { label: 'Surface', icon: 'fa6-solid:earth-europe' },
+            { label: 'Temperature', icon: 'fa6-solid:temperature-half' },
+            { label: 'Gravitation', icon: 'fa6-solid:weight-hanging' },
+            { label: 'Pressure', icon: 'fa6-solid:gauge-simple-high' },
+            { label: 'Fertility', icon: 'fa6-solid:seedling' }
+        ] %}
+        <div class="btn-group">
+            {% for btn in buttons %}
+                {%- set active = view == btn.label|lower -%}
+                <label class="btn btn-light {{- active ? ' active' }}">
+                    <input type="radio" data-model="view" name="view" value="{{ btn.label|lower }}"
+                            {{ active ? 'checked' }} hidden>
+                    <twig:ux:icon :name="btn.icon" />
+                    {{ btn.label }}
+                </label>
+            {% endfor %}
+        </div>
+
+        {% if view != 'colonization' %}
+            <div>
+                <div class="form-check form-switch">
+                    <input class="form-check-input me-3" type="checkbox" role="switch" id="switchColonized"
+                           data-model="includeOnlyColonized">
+                    <label class="form-check-label" for="switchColonized">Only Colonized</label>
+                </div>
+            </div>
+        {% endif %}
     </div>
 </div>

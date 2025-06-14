@@ -34,6 +34,16 @@ header {
     }
 }
 
+.btn-group .btn svg {
+    height: 1rem;
+    margin-right: .5rem;
+    color: var(--bs-gray-600);
+}
+
+.btn-group .btn.active svg {
+    color: var(--bs-primary);
+}
+
 #nav-breadcrumbs {
     padding: 1rem 0;
     margin-bottom: 2rem;

@@ -21,6 +21,9 @@ final class Planets
     #[LiveProp(writable: true)]
     public string $view = 'colonization';
 
+    #[LiveProp(writable: true)]
+    public bool $includeOnlyColonized = false;
+
     #[LiveProp]
     public string $region;
 
@@ -320,6 +323,21 @@ final class Planets
         $property = "jumpsTo$station";
         $_qb = $this->planetRepository->createQueryBuilder('planet');
         $_qb->where("planet.$property <= 5");
-        return $_qb->getQuery()->getResult();
+
+        if ($this->includeOnlyColonized) {
+            $_qb->join('planet.sites', 'site')
+                ->addSelect('site')
+                ->where('site.owner IS NOT NULL');
+        }
+
+        $planets = $_qb->getQuery()->getResult();
+
+        if ($this->includeOnlyColonized) {
+            $planets = array_filter($planets, function (Planet $planet) {
+                return $planet->getSites()->count() > 0;
+            });
+        }
+
+        return $planets;
     }
 }
