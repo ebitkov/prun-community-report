@@ -11,11 +11,6 @@ final class HomeController extends AbstractController
     #[Route('/', name: 'app_home')]
     public function index(): Response
     {
-        $today = new \DateTime();
-        return $this->redirectToRoute('app_report_dashboard', [
-            'region' => 'antares',
-            'year' => $today->format('Y'),
-            'month' => $today->format('m'),
-        ]);
+        return $this->render('home/index.html.twig');
     }
 }

@@ -3,4 +3,43 @@
 
 {% block content %}
     <h1 class="font-serif">Dashboard</h1>
+
+    <h2>Latest Economic Reports</h2>
+
+    {% set items = [
+        'Antares',
+        'Arclight',
+        'Benten',
+        'Hubur',
+        'Hortus',
+        'Moria',
+    ] %}
+    <div class="row row-cols-2 g-3">
+        {% for item in items %}
+            <div class="col">
+                <div class="card">
+                    <div class="card-body">
+                        <a class="link" href="{{ path('app_report_dashboard', { region: item|lower }) }}">
+                            {{ item }}
+                        </a>
+                    </div>
+                </div>
+            </div>
+        {% endfor %}
+    </div>
+
+
+    <h2>Database</h2>
+
+    <div class="row row-cols-2 g-3">
+        <div class="col">
+            <div class="card">
+                <div class="card-body">
+                    <a class="link" href="{{ path('app_planets') }}">
+                        Planets
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
 {% endblock %}

@@ -9,6 +9,15 @@ final class Nav
             'top' => [
                 'items' => [
                     [
+                        'label' => 'Dashboard',
+                        'route' => 'app_home',
+                    ],
+                ]
+            ],
+            'data' => [
+                'label' => 'Database',
+                'items' => [
+                    [
                         'label' => 'Planets',
                         'route' => 'app_planets',
                     ]
@@ -31,7 +40,7 @@ final class Nav
             'top' => [
                 'items' => [
                     [
-                        'label' => 'Back to Dashboard',
+                        'label' => 'Dashboard',
                         'route' => 'app_home',
                     ],
                 ]
