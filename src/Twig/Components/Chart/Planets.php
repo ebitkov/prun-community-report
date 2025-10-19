@@ -122,8 +122,8 @@ final class Planets
                 [
                     'data' => array_values($data),
                     'backgroundColor' => [
-                        Bootstrap::COLORS['blue']['hex'],
-                        Bootstrap::COLORS['purple']['hex'],
+                        Bootstrap::COLORS['green']['hex'],
+                        Bootstrap::COLORS['red']['hex'],
                     ]
                 ],
             ]
@@ -164,7 +164,7 @@ final class Planets
                     'data' => array_values($data),
                     'backgroundColor' => [
                         Bootstrap::COLORS['blue']['hex'],
-                        Bootstrap::COLORS['purple']['hex'],
+                        Bootstrap::COLORS['green']['hex'],
                         Bootstrap::COLORS['red']['hex'],
                     ]
                 ],
@@ -206,7 +206,7 @@ final class Planets
                     'data' => array_values($data),
                     'backgroundColor' => [
                         Bootstrap::COLORS['blue']['hex'],
-                        Bootstrap::COLORS['purple']['hex'],
+                        Bootstrap::COLORS['green']['hex'],
                         Bootstrap::COLORS['red']['hex'],
                     ]
                 ],
@@ -248,7 +248,7 @@ final class Planets
                     'data' => array_values($data),
                     'backgroundColor' => [
                         Bootstrap::COLORS['blue']['hex'],
-                        Bootstrap::COLORS['purple']['hex'],
+                        Bootstrap::COLORS['green']['hex'],
                         Bootstrap::COLORS['red']['hex'],
                     ]
                 ],
@@ -292,9 +292,9 @@ final class Planets
                 [
                     'data' => array_values($data),
                     'backgroundColor' => [
+                        Bootstrap::COLORS['orange']['hex'],
                         Bootstrap::COLORS['blue']['hex'],
-                        Bootstrap::COLORS['purple']['hex'],
-                        Bootstrap::COLORS['red']['hex'],
+                        Bootstrap::COLORS['green']['hex'],
                     ]
                 ],
             ]
