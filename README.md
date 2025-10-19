@@ -10,8 +10,8 @@ with data from the [FNAR FIO API](https://doc.fnar.net/).
 
 ### Stack
 
-- **PHP 8.2**
-- **Symfony 7.2**, which includes i. a.:
+- **PHP 8.4**
+- **Symfony 7.3**, which includes i. a.:
     - **[Twig](https://twig.symfony.com/)** for templating
     - **[Doctrine](https://www.doctrine-project.org/)** for database object management
     - **[AssetMapper](https://www.doctrine-project.org/)** for asset management
