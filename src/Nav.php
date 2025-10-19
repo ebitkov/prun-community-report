@@ -14,15 +14,6 @@ final class Nav
                     ],
                 ]
             ],
-            'data' => [
-                'label' => 'Database',
-                'items' => [
-                    [
-                        'label' => 'Planets',
-                        'route' => 'app_planets',
-                    ]
-                ]
-            ],
             'reports' => [
                 'label' => 'Monthly Economic Reports',
                 'items' => [
@@ -32,6 +23,15 @@ final class Nav
                         'route_parameter' => [
                             'region' => 'antares'
                         ]
+                    ]
+                ]
+            ],
+            'data' => [
+                'label' => 'Data & Statistics',
+                'items' => [
+                    [
+                        'label' => 'Planets',
+                        'route' => 'app_planets',
                     ]
                 ]
             ]
