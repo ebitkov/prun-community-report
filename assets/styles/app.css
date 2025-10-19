@@ -19,9 +19,20 @@ h2 {
 }
 
 header {
-    height: 50px;
+    padding: .5rem 0;
+    margin-bottom: 3rem;
     width: 100%;
     background-color: var(--bs-primary);
+}
+
+.logo {
+    display: inline-block;
+    padding: 0 1rem;
+    background-color: #fff;
+    font-weight: 300;
+    font-size: 1.5rem;
+    letter-spacing: 2px;
+    margin-left: -1rem;
 }
 
 .link {
@@ -42,17 +53,6 @@ header {
 
 .btn-group .btn.active svg {
     color: var(--bs-primary);
-}
-
-#nav-breadcrumbs {
-    padding: 1rem 0;
-    margin-bottom: 2rem;
-    font-size: .9rem;
-    background-color: #fff3cd;
-
-    .breadcrumb {
-        margin-bottom: 0;
-    }
 }
 
 .nav-github {
@@ -92,8 +92,8 @@ header {
         &::before {
             content: '';
             display: block;
-            height: 3px;
-            width: 3px;
+            height: 5px;
+            width: 5px;
             transition: 0.2s;
             border-radius: 3px;
             position: absolute;
@@ -105,9 +105,8 @@ header {
             background-color: var(--bs-gray-100);
 
             &::before {
-                height: 1rem;
-                background-color: var(--bs-gray-600);
-                top: .75rem;
+                background-color: var(--bs-primary);
+                top: 1.1rem;
             }
         }
 
@@ -115,6 +114,7 @@ header {
             background-color: var(--bs-gray-200);
 
             &::before {
+                width: 3px;
                 top: .4rem;
                 height: 1.75rem;
                 background-color: var(--bs-primary);
