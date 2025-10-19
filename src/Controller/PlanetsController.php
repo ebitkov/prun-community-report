@@ -20,7 +20,10 @@ final class PlanetsController extends AbstractController
     public function details(#[MapEntity(mapping: ['naturalId' => 'naturalId'])] Planet $planet): Response
     {
         return $this->render('planet/details.html.twig', [
-            'planet' => $planet
+            'planet' => $planet,
+            'sites' => $planet->getSites()->filter(function (Planet\Site $site): bool {
+                return null !== $site->getOwner();
+            }),
         ]);
     }
 }

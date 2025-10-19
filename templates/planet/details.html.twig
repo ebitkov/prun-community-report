@@ -200,24 +200,16 @@
     </ul>
 
     <div class="h4 mt-5 mb-4 px-3">
-        Sites
+        Player Sites
     </div>
 
     <div class="px-4 mb-3" style="font-size: .9rem">
-        {{ planet.sites.count }} total
-
-        <span class="d-inline-block ms-3 me-1"
-              style="background: var(--bs-blue);height: .5rem;width: .5rem;border-radius: 50%"></span>
-        Player
-        <span class="d-inline-block ms-3 me-1"
-              style="background: var(--bs-orange);height: .5rem;width: .5rem;border-radius: 50%"></span>
-        Infrastructure
+        {{ sites|length }} total
     </div>
 
     <div class="d-flex flex-wrap px-3">
-        {% for site in planet.sites %}
-            {% set color = site.owner ? 'blue' : 'orange' %}
-            <div style="height: 1rem;width: 1rem;background:var(--bs-{{ color }}); margin: 3px" class="rounded-sm"
+        {% for i in range(1, sites|length) %}
+            <div style="height: 1rem;width: 1rem;background:var(--bs-blue); margin: 3px" class="rounded-sm"
                  title="{{ site.owner.name ?? 'Planetary Infrastructure' }}"></div>
         {% endfor %}
     </div>
